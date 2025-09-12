@@ -1,0 +1,61 @@
+enum WalletCashbackCurrency {
+  SOL
+  USDC
+  WBTC
+}
+
+model User {
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+  email     String    @unique
+  firstName String
+  lastName  String
+
+  groupId String?    @db.Uuid
+  group   UserGroup? @relation(fields: [groupId], references: [id])
+
+  settings UserSettings?
+
+  addresses          Address[]
+  authData           UserAuthData[]
+  billingData        UserBillingData[]
+  credits            Credit[]
+  kycData            UserKycData[]
+  logEvents          LogEvent[]
+  onboardingProgress OnboardingProgress[]
+  orders             Order[]
+  rewardPayouts      RewardPayout[]
+  subscriptions      Subscription[]
+  wallets            Wallet[]
+  walletData         UserWalletData[]
+  ownedPromoCodes    PromoCode[]          @relation("owner")
+  receivedPromoCodes PromoCode[]          @relation("receiver")
+}
+
+model UserSettings {
+  email            Boolean                @default(true)
+  mail             Boolean                @default(false)
+  sms              Boolean                @default(true)
+  cpni             Boolean                @default(true)
+  cashbackCurrency WalletCashbackCurrency @default(WBTC)
+
+  userId String @id @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model UserGroup {
+  id                      String    @id @default(uuid()) @db.Uuid
+  name                    String    @unique
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @default(now()) @updatedAt
+  deletedAt               DateTime?
+  isDefaultGroup          Boolean   @default(false)
+  isNewWalletEnabled      Boolean   @default(false)
+  isPromoCodeFieldEnabled Boolean   @default(false)
+
+  users User[]
+
+  @@index([isDefaultGroup])
+}

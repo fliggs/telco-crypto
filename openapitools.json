@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.11.0",
+    "generators": {
+      "default": {
+        "generatorName": "typescript-fetch",
+        "inputSpec": "packages/core/api.yaml",
+        "output": "packages/api-client-ts",
+        "additionalProperties": {
+          "ngVersion": "6.1.7",
+          "npmName": "api-client-ts",
+          "supportsES6": "true",
+          "npmVersion": "6.9.0",
+          "withInterfaces": true,
+          "useSingleRequestParameter": true,
+          "modelPropertyNaming": "original"
+        }
+      }
+    }
+  }
+}

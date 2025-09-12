@@ -1,0 +1,15 @@
+enum DeviceType {
+  IOS
+  ANDROID
+}
+
+model Device {
+  id          String     @id @default(uuid()) @db.Uuid
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
+  type        DeviceType
+  name        String
+  eSimSupport Boolean
+
+  @@unique([type, name])
+}

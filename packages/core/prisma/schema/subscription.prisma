@@ -1,0 +1,122 @@
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  CANCELLED
+  DEACTIVATED
+  SUSPENDED
+}
+
+model Subscription {
+  id            String             @id @default(uuid()) @db.Uuid
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @default(now()) @updatedAt
+  status        SubscriptionStatus
+  label         String?
+  activatedAt   DateTime?
+  canceledAt    DateTime?
+  suspendedAt   DateTime?
+  deactivatedAt DateTime?
+  /// LEADING to use the period start as the reference for billingOffset, TRAILING to use the period end
+  billingEdge   EdgeType
+  /// Offset from the billingEdge in seconds, negative = before the edge, positive = after the edge
+  billingOffset Int
+  /// LEADING to use the period start as the reference for telcoOffset, TRAILING to use the period end
+  telcoEdge     EdgeType
+  /// Offset from the telcoEdge in seconds, negative = before the edge, positive = after the edge
+  telcoOffset   Int
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  offerId String @db.Uuid
+  offer   Offer  @relation(fields: [offerId], references: [id])
+
+  parentId String?        @db.Uuid
+  parent   Subscription?  @relation("hierarchy", fields: [parentId], references: [id])
+  children Subscription[] @relation("hierarchy")
+
+  simIccid String? @unique
+  sim      Sim?    @relation(fields: [simIccid], references: [iccid])
+
+  phoneNumberMsisdn String?      @unique
+  phoneNumber       PhoneNumber? @relation(fields: [phoneNumberMsisdn], references: [msisdn])
+
+  currentPeriodId String?             @unique @db.Uuid
+  currentPeriod   SubscriptionPeriod? @relation(name: "CurrentPeriod", fields: [currentPeriodId], references: [id])
+
+  periods                SubscriptionPeriod[]
+  simAssignments         SimAssignment[]
+  phoneNumberAssignments PhoneNumberAssignment[]
+  orders                 Order[]
+  ordersAddPlanParent    OrderAddPlanDetails[]   @relation(name: "parentSubscription")
+  credits                Credit[]
+  promoCodeActivations   PromoCodeActivation[]
+  telcoData              SubscriptionTelcoData[]
+  history                SubscriptionHistory[]
+  logEvents              LogEvent[]
+
+  @@index([status])
+}
+
+enum SubscriptionPeriodStatus {
+  PENDING
+  PROCESSING
+  DONE
+  CANCELLED
+  FAILED
+}
+
+model SubscriptionPeriod {
+  id        String                   @id @default(uuid()) @db.Uuid
+  createdAt DateTime                 @default(now())
+  updatedAt DateTime                 @default(now()) @updatedAt
+  status    SubscriptionPeriodStatus
+  startsAt  DateTime
+  endsAt    DateTime
+
+  subscriptionId String       @db.Uuid
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+
+  offerId String @db.Uuid
+  offer   Offer  @relation(fields: [offerId], references: [id])
+
+  currentSubscription Subscription? @relation(name: "CurrentPeriod")
+
+  ordersAddPlan   OrderAddPlanDetails[]
+  ordersRenewPlan OrderRenewPlanDetails[]
+
+  @@index([startsAt])
+  @@index([endsAt])
+}
+
+model SubscriptionHistory {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  timestamp DateTime
+
+  subscriptionId String       @db.Uuid
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+
+  simIccid String?
+  sim      Sim?    @relation(fields: [simIccid], references: [iccid])
+
+  phoneNumberMsisdn String?
+  phoneNumber       PhoneNumber? @relation(fields: [phoneNumberMsisdn], references: [msisdn])
+
+  usage SubscriptionUsage[]
+
+  telcoData SubscriptionHistoryTelcoData[]
+}
+
+model SubscriptionUsage {
+  id          String     @id @default(uuid()) @db.Uuid
+  createdAt   DateTime   @default(now())
+  type        VolumeType
+  isRoaming   Boolean
+  isUnlimited Boolean
+  amount      Decimal
+  total       Decimal?
+
+  historyId String?              @db.Uuid
+  history   SubscriptionHistory? @relation(fields: [historyId], references: [id])
+}

@@ -1,0 +1,1418 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AddressDto {
+  city: String!
+  country: String!
+  id: String!
+  line1: String!
+  line2: String!
+  line3: String!
+  line4: String!
+  postalCode: String!
+  province: String!
+  type: AddressType!
+}
+
+input AddressInputDto {
+  city: String!
+  country: String!
+  line1: String!
+  line2: String!
+  line3: String!
+  line4: String!
+  name: String
+  postalCode: String!
+  province: String!
+}
+
+enum AddressType {
+  Billing
+  E911
+  Shipping
+}
+
+type AdminAuthDataDto {
+  data: String!
+  id: String!
+  provider: AuthProvider!
+  strategy: String!
+}
+
+type AdminDto {
+  authData: [AdminAuthDataDto!]!
+  deletedAt: DateTime
+  email: String!
+  firstName: String!
+  id: String!
+  lastName: String!
+}
+
+input AdminFilterDto {
+  search: String
+}
+
+input AuthLocalAdminUpdateDto {
+  newPassword: String
+}
+
+input AuthLocalUserUpdateDto {
+  newPassword: String
+  verify: Boolean
+}
+
+enum AuthProvider {
+  Apple
+  Google
+  Local
+  OpenId
+}
+
+type AuthStrategyDto {
+  name: String!
+  provider: AuthProvider!
+  tags: [String!]
+  title: String!
+}
+
+input CheckAddressDto {
+  city: String!
+  country: String!
+  line1: String!
+  line2: String!
+  line3: String!
+  line4: String!
+  postalCode: String!
+  province: String!
+}
+
+interface ContentBaseBlockDto {
+  type: ContentBlockType!
+}
+
+union ContentBlock = ContentBlockImageDto | ContentBlockListDto | ContentBlockSeparatorDto | ContentBlockSpacerDto | ContentBlockTextDto
+
+type ContentBlockImageDto implements ContentBaseBlockDto {
+  image: String!
+  title: String
+  type: ContentBlockType!
+}
+
+input ContentBlockInputDto {
+  color: String
+  image: String
+  items: [String!]
+  spacing: String
+  text: String
+  title: String
+  type: ContentBlockType!
+  variant: String
+}
+
+type ContentBlockListDto implements ContentBaseBlockDto {
+  color: String
+  items: [String!]!
+  title: String
+  type: ContentBlockType!
+  variant: String
+}
+
+type ContentBlockSeparatorDto implements ContentBaseBlockDto {
+  color: String
+  type: ContentBlockType!
+}
+
+type ContentBlockSpacerDto implements ContentBaseBlockDto {
+  spacing: String
+  type: ContentBlockType!
+}
+
+type ContentBlockTextDto implements ContentBaseBlockDto {
+  color: String
+  text: String!
+  title: String
+  type: ContentBlockType!
+  variant: String
+}
+
+enum ContentBlockType {
+  IMAGE
+  LIST
+  SEPARATOR
+  SPACER
+  TEXT
+}
+
+type ContentDto {
+  bgImage: String
+  color: String
+  details: [ContentBlock!]
+  summary: ContentBlock
+  tags: [String!]
+  title: String
+}
+
+input ContentInputDto {
+  bgImage: String
+  color: String
+  details: [ContentBlockInputDto!]
+  summary: ContentBlockInputDto
+  tags: [String!]
+  title: String
+}
+
+type CountryDto {
+  favourite: Boolean!
+  id: String!
+  name: String!
+  rate: Float
+  roaming: Boolean!
+}
+
+input CountryInputDto {
+  favourite: Boolean!
+  name: String!
+  rate: DecimalNumber!
+  roaming: Boolean!
+}
+
+input CreateCreditDto {
+  providedCost: DecimalNumber!
+  subscriptionId: String
+  title: String!
+  userId: String!
+}
+
+input CreateOfferDto {
+  content: ContentInputDto!
+  cost: DecimalNumber!
+  isActive: Boolean!
+  isPublic: Boolean!
+  legalId: String!
+  originalCost: DecimalNumber
+  planId: String!
+  providedCredits: DecimalNumber
+  sort: Int!
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input CreateOrderDto {
+  subscriptionId: String
+  type: OrderType!
+  userId: String!
+}
+
+input CreatePhoneNumberDto {
+  msisdn: String!
+  source: PhoneNumberSource!
+}
+
+input CreatePlanDto {
+  content: ContentInputDto!
+  doesAutoRenew: Boolean!
+  isStandalone: Boolean!
+  validForSeconds: Float!
+  volumes: [CreateVolumeDto!]!
+}
+
+input CreatePromoCodeDto {
+  code: String!
+  content: ContentInputDto!
+  isActive: Boolean!
+  maxActivations: Int
+  offerIds: [String!]!
+  receiverEmail: String
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input CreateRewardDto {
+  content: ContentInputDto!
+  data: String!
+  isActive: Boolean!
+  name: String!
+  type: RewardType!
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input CreateSimDto {
+  firstIccid: String
+  iccid: String
+  lastIccid: String
+  status: SimStatus!
+  type: SimType!
+}
+
+input CreateSubscriptionDto {
+  iccid: String!
+  msisdn: String!
+  offerId: String!
+  parentId: String
+  simType: SimType!
+  startAt: DateTime!
+  status: SubscriptionStatus!
+  userId: String!
+}
+
+input CreateVolumeDto {
+  amount: String!
+  isRoaming: Boolean!
+  isUnlimited: Boolean!
+  type: VolumeType!
+}
+
+type CreditDto {
+  content: ContentDto!
+  createdAt: DateTime!
+  id: String!
+  providedCost: DecimalNumber!
+  subscriptionId: String
+  usedCost: DecimalNumber!
+}
+
+input CreditFilterDto {
+  usedCost: DecimalNumber
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""A decimal number"""
+scalar DecimalNumber
+
+type DeviceDto {
+  eSimSupport: Boolean!
+  id: String!
+  name: String!
+  type: DeviceType!
+}
+
+input DeviceInputDto {
+  eSimSupport: Boolean!
+  name: String!
+  type: DeviceType!
+}
+
+enum DeviceType {
+  ANDROID
+  IOS
+}
+
+type HealthDto {
+  details: HealthIndicatorDto!
+  error: HealthIndicatorDto!
+  info: HealthIndicatorDto!
+  status: String!
+}
+
+type HealthIndicatorDto {
+  db: HealthResultDto
+  memory: HealthResultDto
+  mobileApp: HealthResultMobileAppDto
+  network: HealthResultDto
+  storage: HealthResultDto
+}
+
+type HealthResultDto {
+  message: String
+  status: String!
+}
+
+type HealthResultMobileAppDto {
+  message: String
+  minVersion: MinVersionDto!
+  status: String!
+}
+
+type InvoiceDto {
+  id: String!
+  invoicedAt: DateTime!
+  items: [InvoiceItemDto!]!
+  order: OrderDto!
+  orderId: String!
+  status: InvoiceStatus!
+  totalCost: DecimalNumber!
+}
+
+input InvoiceFilterDto {
+  id: String
+  status: InvoiceStatus
+}
+
+type InvoiceHistoryStatDto {
+  counts: InvoiceStatusHistoryMap!
+  timestamp: DateTime!
+}
+
+type InvoiceItemDto {
+  amount: Int!
+  costPerItem: DecimalNumber!
+  description: String!
+  id: String!
+  name: String!
+  title: String!
+  totalCost: DecimalNumber!
+}
+
+enum InvoiceOrderByColumn {
+  createdAt
+  invoicedAt
+  totalCost
+}
+
+input InvoiceOrderByDto {
+  col: InvoiceOrderByColumn!
+  dir: SortOrder!
+}
+
+enum InvoiceStatus {
+  PAID
+  PENDING
+  REFUNDED
+  VOID
+}
+
+type InvoiceStatusHistoryMap {
+  PAID: Int!
+  PENDING: Int!
+  REFUNDED: Int!
+  VOID: Int!
+}
+
+type LogEventDto {
+  createdAt: DateTime!
+  data: String!
+  id: String!
+  orderId: String
+  subscriptionId: String
+  type: LogEventType!
+  userId: String
+}
+
+input LogEventFilterDto {
+  type: LogEventType
+}
+
+enum LogEventType {
+  LEGACY_REQUEST
+  ONBOARDING_STAGE_COMPLETED
+  ONBOARDING_STAGE_STARTED
+  ORDER_ABORTED
+  ORDER_CANCELLED
+  ORDER_COMPLETED
+  ORDER_CONFIRMED
+  ORDER_CREATED
+  ORDER_ERRORED
+  SUBSCRIPTION_ACTIVATED
+  SUBSCRIPTION_CANCELLED
+  SUBSCRIPTION_CREATED
+  SUBSCRIPTION_DEACTIVATED
+  SUBSCRIPTION_REACTIVATED
+  SUBSCRIPTION_SUSPENDED
+  SUBSCRIPTION_UNCANCELLED
+  USER_CREATED
+  USER_DELETED
+  USER_VERIFIED
+}
+
+type MinVersionDto {
+  android: String!
+  ios: String!
+}
+
+type Mutation {
+  abortOrder(id: String!): OrderDto!
+  authLocalLogin(email: String!, password: String!, strategy: String!): SessionTokensDto!
+  authLocalUpdateAdmin(adminId: String!, dto: AuthLocalAdminUpdateDto!, strategy: String!): AdminAuthDataDto!
+  authLocalUpdateUser(dto: AuthLocalUserUpdateDto!, strategy: String!, userId: String!): UserAuthDataDto!
+  authOpenIdLoginRedeem(code: String!, strategy: String!): SessionTokensDto!
+  authOpenIdLoginStart(redirectUrl: String!, strategy: String!): String!
+  authRefreshTokens(refreshToken: String!): SessionTokensDto!
+  changeFaqs(content: ContentInputDto!): ContentDto!
+  changePhoneNumberStatus(msisdn: String!, status: PhoneNumberStatus!): PhoneNumberDto!
+  changePrivacyPolicy(content: ContentInputDto!): ContentDto!
+  changeSimStatus(iccid: String!, status: SimStatus!): SimDto!
+  changeSubscriptionOffer(id: String!, offerId: String!): SubscriptionDto!
+  changeSubscriptionPhoneNumber(id: String!, msisdn: String, ospAccountNumber: String, ospPassword: String, ospPostalCode: String): SubscriptionDto!
+  changeSubscriptionSim(iccid: String, id: String!, simType: SimType!): SubscriptionDto!
+  changeSubscriptionStatus(id: String!, status: SubscriptionStatus!): SubscriptionDto!
+  changeTermsAndConditions(content: ContentInputDto!): ContentDto!
+  changeUserGroup(groupId: String, id: String!): UserDto!
+  changeUserOnboardingProgress(completedAt: DateTime, stageName: String!, startedAt: DateTime, userId: String!): OnboardingProgressDto!
+  createAdmin(email: String!, firstName: String!, lastName: String!): AdminDto!
+  createCredit(credit: CreateCreditDto!): CreditDto!
+  createOffer(name: String!, offer: CreateOfferDto!): OfferDto!
+  createOrder(order: CreateOrderDto!): OrderDto!
+  createPhoneNumber(phoneNumber: CreatePhoneNumberDto!): PhoneNumberDto!
+  createPlan(name: String!, plan: CreatePlanDto!, tax: [PlanTaxDataInputDto!], telco: [PlanTelcoDataInputDto!]): PlanDto!
+  createPromoCode(promoCode: CreatePromoCodeDto!): PromoCodeDto!
+  createReward(reward: CreateRewardDto!): RewardDto!
+  createSim(sim: CreateSimDto!): [SimDto!]!
+  createSubscription(sub: CreateSubscriptionDto!): SubscriptionDto!
+  createUser(email: String!, firstName: String!, lastName: String!): UserDto!
+  createWallet(address: String!, isImported: Boolean!, isReadOnly: Boolean!, provider: String!, userId: String!): WalletDto!
+  deleteAdmin(id: String!): AdminDto!
+  deleteCountry(id: String!): CountryDto!
+  deleteDevice(id: String!): DeviceDto!
+  deleteUser(id: String!): UserDto!
+  deleteWallet(id: String!): WalletDto!
+  linkOfferToPromoCode(id: String!, offerId: String!): PromoCodeDto!
+  linkOffers(childId: String!, parentId: String!): Boolean!
+  linkPlans(childId: String!, parentId: String!): Boolean!
+  markOrderPortOutApproved(approved: Boolean!, id: String!): OrderPortOutDetailsDto!
+  markOrderShipped(id: String!): OrderDto!
+  reactivateAdmin(id: String!): AdminDto!
+  reactivateUser(id: String!): UserDto!
+  refundInvoice(asCredits: Boolean!, id: String!): InvoiceDto!
+  rerunPeriod(id: String!): SubscriptionPeriodDto!
+  retryOrder(id: String!): OrderDto!
+  saveAddress(address: AddressInputDto!, type: AddressType!, userId: String!): AddressDto!
+  saveCountry(country: CountryInputDto!, id: String): CountryDto!
+  saveDevice(device: DeviceInputDto!, id: String): DeviceDto!
+  saveUserGroup(dto: UpdateUserGroupDto!, id: String!): UserGroupDto!
+  unlinkOfferFromPromoCode(id: String!, offerId: String!): PromoCodeDto!
+  unlinkOffers(childId: String!, parentId: String!): Boolean!
+  unlinkPlans(childId: String!, parentId: String!): Boolean!
+  updateOffer(content: ContentInputDto, id: String!, isActive: Boolean, isPublic: Boolean, legalId: String, sort: Int): OfferDto!
+  updatePlan(content: ContentInputDto, id: String!): PlanDto!
+  updatePromoCode(content: ContentInputDto, id: String!, isActive: Boolean): PromoCodeDto!
+}
+
+type OfferDto {
+  children(filter: OfferFilterDto, pagination: PaginationArgs): PaginatedOffers!
+  content: ContentDto!
+  cost: DecimalNumber!
+  createdAt: DateTime!
+  id: String!
+  isActive: Boolean!
+  isPublic: Boolean!
+  legalId: String!
+  name: String!
+  originalCost: DecimalNumber
+  parents(filter: OfferFilterDto, pagination: PaginationArgs): PaginatedOffers!
+  plan: PlanDto!
+  planId: String!
+  providedCredits: DecimalNumber
+  rewards(filter: RewardFilterDto, pagination: PaginationArgs): PaginatedRewards!
+  sort: Int!
+  updatedAt: DateTime!
+  validFrom: DateTime
+  validUntil: DateTime
+  version: Float!
+}
+
+input OfferFilterDto {
+  name: String
+  planIsStandalone: Boolean
+}
+
+type OnboardingProgressDto {
+  completedAt: DateTime
+  id: String!
+  stageName: String!
+  startedAt: DateTime
+}
+
+type OnboardingStageDto {
+  content: ContentDto!
+  data: String!
+  name: String!
+  required: Boolean!
+  sort: Int!
+  type: OnboardingStageType!
+}
+
+enum OnboardingStageType {
+  ADDRESS
+  CONTENT
+  KYC
+  ORDER_CONFIRM
+  ORDER_MSISDN
+  ORDER_PLAN
+  ORDER_PROCESS
+  ORDER_SIM_TYPE
+  PAYMENT
+}
+
+enum OrderAction {
+  ABORT
+  RUN
+}
+
+type OrderAddPlanDetailsDto {
+  offerId: String!
+  orderId: String!
+  portIn: Boolean!
+  portInAccountNumber: String
+  portInMsisdn: String
+  portInPassword: String
+  portInPostalCode: String
+  simIccid: String
+  simType: SimType!
+  subscriptionPeriodId: String
+}
+
+type OrderChangePhoneNumberDetailsDto {
+  orderId: String!
+  portIn: Boolean!
+  portInAccountNumber: String
+  portInMsisdn: String
+  portInPassword: String
+  portInPostalCode: String
+}
+
+type OrderChangePlanDetailsDto {
+  offerId: String!
+  orderId: String!
+}
+
+type OrderChangeSimDetailsDto {
+  newSimIccid: String
+  newSimType: SimType!
+  orderId: String!
+}
+
+type OrderDto {
+  action: OrderAction!
+  addPlan: OrderAddPlanDetailsDto
+  attempts: Int!
+  changePhoneNumber: OrderChangePhoneNumberDetailsDto
+  changePlan: OrderChangePlanDetailsDto
+  changeSim: OrderChangeSimDetailsDto
+  completedAt: DateTime
+  confirmedAt: DateTime
+  createdAt: DateTime!
+  currentStep: OrderStepDto
+  id: String!
+  invoices(filter: InvoiceFilterDto, pagination: PaginationArgs): PaginatedInvoices!
+  newestRun: OrderRunDto
+  portOut: OrderPortOutDetailsDto
+  renewPlan: OrderRenewPlanDetailsDto
+  runAt: DateTime
+  runs: [OrderRunDto!]!
+  startedAt: DateTime
+  status: OrderStatus!
+  stepNo: Int
+  steps: [OrderStepDto!]!
+  subscriptionId: String
+  type: OrderType!
+  user: UserDto!
+  userId: String!
+}
+
+input OrderFilterDto {
+  email: String
+  status: OrderStatus
+  step: Int
+  stepType: String
+  type: OrderType
+}
+
+type OrderHistoryStatDto {
+  counts: OrderStatusHistoryMap!
+  timestamp: DateTime!
+}
+
+enum OrderOrderByColumn {
+  completedAt
+  confirmedAt
+  createdAt
+  runAt
+  startedAt
+  updatedAt
+}
+
+input OrderOrderByDto {
+  col: OrderOrderByColumn!
+  dir: SortOrder!
+}
+
+type OrderPortOutDetailsDto {
+  accountNumber: String
+  approved: Boolean!
+  completed: Boolean!
+  orderId: String!
+  password: String
+  request: String
+}
+
+type OrderRenewPlanDetailsDto {
+  offerId: String!
+  orderId: String!
+  subscriptionPeriodId: String
+}
+
+type OrderRunDto {
+  action: OrderAction!
+  completedAt: DateTime
+  createdAt: DateTime!
+  currentStep: OrderRunStepDto
+  error: String
+  formattedError: String
+  id: String!
+  orderId: String!
+  result: String
+  status: OrderRunStatus!
+  stepNo: Int
+  steps: [OrderRunStepDto!]!
+  updatedAt: DateTime!
+}
+
+enum OrderRunStatus {
+  DONE
+  ERROR
+  PROCESSING
+}
+
+type OrderRunStepDto {
+  action: OrderAction!
+  completedAt: DateTime
+  createdAt: DateTime!
+  error: String
+  formattedError: String
+  orderId: String!
+  result: String
+  runId: String!
+  startedAt: DateTime
+  status: OrderRunStepStatus!
+  stepNo: Int!
+  type: String!
+  updatedAt: DateTime!
+}
+
+enum OrderRunStepStatus {
+  DONE
+  ERROR
+  PENDING
+  PROCESSING
+  SKIPPED
+}
+
+enum OrderStatus {
+  ABORTED
+  CONFIRMED
+  DONE
+  DRAFT
+  ERROR
+  PENDING
+  PROCESSING
+}
+
+type OrderStatusCountMap {
+  ABORTED: Int!
+  CONFIRMED: Int!
+  DONE: Int!
+  DRAFT: Int!
+  ERROR: Int!
+  PENDING: Int!
+  PROCESSING: Int!
+}
+
+type OrderStatusHistoryMap {
+  ABORTED: Int!
+  CONFIRMED: Int!
+  DONE: Int!
+  DRAFT: Int!
+  ERROR: Int!
+  PENDING: Int!
+  PROCESSING: Int!
+}
+
+type OrderStepDto {
+  action: OrderAction!
+  attempts: Int!
+  completedAt: DateTime
+  createdAt: DateTime!
+  error: String
+  formattedError: String
+  orderId: String!
+  result: String
+  startedAt: DateTime
+  status: OrderStepStatus!
+  stepNo: Int!
+  type: String!
+  updatedAt: DateTime!
+}
+
+enum OrderStepStatus {
+  ABORTED
+  DONE
+  ERROR
+  PENDING
+  PROCESSING
+  SKIPPED
+}
+
+enum OrderType {
+  ADD_PLAN
+  CHANGE_PHONE_NUMBER
+  CHANGE_PLAN
+  CHANGE_SIM
+  DEACTIVATE_PLAN
+  PORT_IN
+  PORT_OUT
+  REACTIVATE_PLAN
+  RENEW_PLAN
+}
+
+type PaginatedAdmins {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [AdminDto!]!
+  startCursor: String
+}
+
+type PaginatedCredits {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [CreditDto!]!
+  startCursor: String
+}
+
+type PaginatedInvoices {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [InvoiceDto!]!
+  startCursor: String
+}
+
+type PaginatedLogEvents {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [LogEventDto!]!
+  startCursor: String
+}
+
+type PaginatedOffers {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [OfferDto!]!
+  startCursor: String
+}
+
+type PaginatedOrders {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [OrderDto!]!
+  startCursor: String
+}
+
+type PaginatedPhoneNumberAssignments {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [PhoneNumberAssignmentDto!]!
+  startCursor: String
+}
+
+type PaginatedPhoneNumbers {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [PhoneNumberDto!]!
+  startCursor: String
+}
+
+type PaginatedPlans {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [PlanDto!]!
+  startCursor: String
+}
+
+type PaginatedPromoCodes {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [PromoCodeDto!]!
+  startCursor: String
+}
+
+type PaginatedRewardPayouts {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [RewardPayoutDto!]!
+  startCursor: String
+}
+
+type PaginatedRewards {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [RewardDto!]!
+  startCursor: String
+}
+
+type PaginatedSimAssignments {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [SimAssignmentDto!]!
+  startCursor: String
+}
+
+type PaginatedSims {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [SimDto!]!
+  startCursor: String
+}
+
+type PaginatedSubscriptionPeriods {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [SubscriptionPeriodDto!]!
+  startCursor: String
+}
+
+type PaginatedSubscriptions {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [SubscriptionDto!]!
+  startCursor: String
+}
+
+type PaginatedUserGroups {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [UserGroupDto!]!
+  startCursor: String
+}
+
+type PaginatedUsers {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [UserDto!]!
+  startCursor: String
+}
+
+type PaginatedWallets {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [WalletDto!]!
+  startCursor: String
+}
+
+input PaginationArgs {
+  after: String
+  before: String
+  first: Int
+  last: Int
+}
+
+type PhoneNumberAssignmentDto {
+  createdAt: DateTime!
+  deletedAt: DateTime
+  id: String!
+  phoneNumber: PhoneNumberDto!
+  updatedAt: DateTime!
+}
+
+type PhoneNumberDto {
+  createdAt: DateTime!
+  currentSubscription: SubscriptionDto
+  msisdn: String!
+  source: PhoneNumberSource!
+  status: PhoneNumberStatus!
+  updatedAt: DateTime!
+}
+
+input PhoneNumberFilterDto {
+  msisdn: String
+  source: PhoneNumberSource
+  status: PhoneNumberStatus
+}
+
+type PhoneNumberOverviewDto {
+  assigned: Int!
+  available: Int!
+  initial: Int!
+  reserved: Int!
+  total: Int!
+}
+
+enum PhoneNumberSource {
+  GENERATED
+  IMPORTED
+}
+
+enum PhoneNumberStatus {
+  ASSIGNED
+  AVAILABLE
+  INITIAL
+  RESERVED
+}
+
+type PlanDto {
+  children(filter: PlanFilterDto, pagination: PaginationArgs): PaginatedPlans!
+  content: ContentDto!
+  doesAutoRenew: Boolean!
+  id: String!
+  isStandalone: Boolean!
+  name: String!
+  parents(filter: PlanFilterDto, pagination: PaginationArgs): PaginatedPlans!
+  taxData: [PlanTaxDataDto!]!
+  telcoData: [PlanTelcoDataDto!]!
+  validForSeconds: Float!
+  version: Int!
+  versions: [PlanDto!]!
+  volumes: [VolumeDto!]!
+}
+
+input PlanFilterDto {
+  isStandalone: Boolean
+  name: String
+}
+
+type PlanTaxDataDto {
+  createdAt: DateTime!
+  data: String!
+  id: String!
+  provider: TaxProvider!
+  updatedAt: DateTime!
+}
+
+input PlanTaxDataInputDto {
+  data: String!
+  provider: TaxProvider!
+}
+
+type PlanTelcoDataDto {
+  createdAt: DateTime!
+  data: String!
+  id: String!
+  provider: TelcoProvider!
+  updatedAt: DateTime!
+}
+
+input PlanTelcoDataInputDto {
+  data: String!
+  provider: TelcoProvider!
+}
+
+type PromoCodeActivationDto {
+  createdAt: DateTime!
+  id: String!
+  orderId: String!
+  subscriptionId: String
+}
+
+type PromoCodeDto {
+  activations: [PromoCodeActivationDto!]!
+  code: String!
+  content: ContentDto!
+  createdAt: DateTime!
+  id: String!
+  isActive: Boolean!
+  maxActivations: Int
+  offers(filter: OfferFilterDto, pagination: PaginationArgs): PaginatedOffers!
+  ownerId: String
+  receiverEmail: String
+  receiverId: String
+  updatedAt: DateTime!
+  usedActivations: Int
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input PromoCodeFilterDto {
+  code: String
+}
+
+type Query {
+  admin(id: String!): AdminDto!
+  admins(filter: AdminFilterDto, pagination: PaginationArgs): PaginatedAdmins!
+  authLocalStrategies(admin: Boolean!): [AuthStrategyDto!]!
+  authOpenIdStrategies(admin: Boolean!): [AuthStrategyDto!]!
+  authStrategies(admin: Boolean!): [AuthStrategyDto!]!
+  checkTaxAddress(address: CheckAddressDto!): Boolean!
+  checkTelcoAddress(address: CheckAddressDto!): Boolean!
+  countries(name: String): [CountryDto!]!
+  devices(name: String): [DeviceDto!]!
+  faqs: ContentDto!
+  health: HealthDto!
+  invoice(id: String!): InvoiceDto!
+  invoices(filter: InvoiceFilterDto, orderBy: [InvoiceOrderByDto!], pagination: PaginationArgs): PaginatedInvoices!
+  logEvents(filter: LogEventFilterDto, pagination: PaginationArgs): PaginatedLogEvents!
+  meAdmin: AdminDto!
+  offer(id: String!): OfferDto!
+  offers(filter: OfferFilterDto, pagination: PaginationArgs): PaginatedOffers!
+  onboardingStage(name: String!): OnboardingStageDto!
+  onboardingStages: [OnboardingStageDto!]!
+  order(id: String!): OrderDto!
+  orderRun(id: String!): OrderRunDto!
+  orderStepRetries: [Float!]!
+  orders(filter: OrderFilterDto, orderBy: [OrderOrderByDto!], pagination: PaginationArgs): PaginatedOrders!
+  phoneNumberOverview: PhoneNumberOverviewDto!
+  phoneNumbers(filter: PhoneNumberFilterDto, pagination: PaginationArgs): PaginatedPhoneNumbers!
+  plan(id: String!): PlanDto!
+  plans(filter: PlanFilterDto, pagination: PaginationArgs): PaginatedPlans!
+  privacyPolicy: ContentDto!
+  promoCode(id: String!): PromoCodeDto!
+  promoCodes(filter: PromoCodeFilterDto, pagination: PaginationArgs): PaginatedPromoCodes!
+  reward(id: String!): RewardDto!
+  rewards(filter: RewardFilterDto, pagination: PaginationArgs): PaginatedRewards!
+  sim(iccid: String!): SimDto!
+  simDetails(iccid: String!): SimDetailsDto!
+  simOverview: SimOverviewDto!
+  simUsage(iccid: String!): [VolumeUsageDto!]!
+  sims(filter: SimFilterDto, pagination: PaginationArgs): PaginatedSims!
+  stats: StatsDto!
+  subscription(id: String!): SubscriptionDto!
+  subscriptionHistory(id: String, phoneNumberMsisdn: String, simIccid: String): [SubscriptionHistoryDto!]!
+  subscriptions(filter: SubscriptionFilterDto, pagination: PaginationArgs): PaginatedSubscriptions!
+  termsAndConditions: ContentDto!
+  user(id: String!): UserDto!
+  userGroup(id: String!): UserGroupDto!
+  userGroups(filter: UserGroupFilterDto, pagination: PaginationArgs): PaginatedUserGroups!
+  users(filter: UserFilterDto, orderBy: [UserOrderByDto!], pagination: PaginationArgs): PaginatedUsers!
+  wallet(id: String!): WalletDto!
+  wallets(filter: WalletFilterDto, pagination: PaginationArgs): PaginatedWallets!
+}
+
+type RewardDto {
+  content: ContentDto!
+  createdAt: DateTime!
+  data: String!
+  id: String!
+  isActive: Boolean!
+  name: String!
+  offers(filter: OfferFilterDto, pagination: PaginationArgs): PaginatedOffers!
+  payouts(pagination: PaginationArgs): PaginatedRewardPayouts!
+  type: RewardType!
+  updatedAt: DateTime!
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input RewardFilterDto {
+  name: String
+}
+
+type RewardPayoutDto {
+  cost: DecimalNumber!
+  createdAt: DateTime!
+  data: String!
+  id: String!
+  offerId: String!
+  rewardId: String!
+  updatedAt: DateTime!
+  userId: String!
+}
+
+enum RewardType {
+  CASHBACK_CREDITS
+  CASHBACK_CRYPTO
+}
+
+type SessionTokensDto {
+  expires: String!
+  refreshExpires: String!
+  refreshToken: String!
+  token: String!
+}
+
+type SimAssignmentDto {
+  createdAt: DateTime!
+  deletedAt: DateTime
+  id: String!
+  sim: SimDto!
+  updatedAt: DateTime!
+}
+
+type SimDetailsDto {
+  eSimActivationCode: String
+  eSimStatus: String
+  isActivated: Boolean!
+}
+
+type SimDto {
+  createdAt: DateTime!
+  currentSubscription: SubscriptionDto
+  iccid: String!
+  pin: String
+  pin2: String
+  puk: String
+  puk2: String
+  status: SimStatus!
+  type: SimType!
+}
+
+input SimFilterDto {
+  iccid: String
+  status: SimStatus
+  type: SimType
+}
+
+type SimOverviewDto {
+  assigned: Int!
+  available: Int!
+  initial: Int!
+  reserved: Int!
+  total: Int!
+}
+
+enum SimStatus {
+  ASSIGNED
+  AVAILABLE
+  INITIAL
+  RESERVED
+}
+
+enum SimType {
+  E_SIM
+  P_SIM
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+type StatsDto {
+  invoiceHistory: [InvoiceHistoryStatDto!]!
+  openInvoicesTotal: DecimalNumber!
+  orderCounts: OrderStatusCountMap!
+  orderHistory: [OrderHistoryStatDto!]!
+  userHistory: [UserHistoryStatDto!]!
+}
+
+type SubscriptionDto {
+  children(filter: SubscriptionFilterDto, pagination: PaginationArgs): PaginatedSubscriptions!
+  currentPeriod: SubscriptionPeriodDto
+  currentPeriodId: String
+  id: String!
+  invoices(filter: InvoiceFilterDto, pagination: PaginationArgs): PaginatedInvoices!
+  label: String
+  offer: OfferDto!
+  offerId: String
+  orders(filter: OrderFilterDto, pagination: PaginationArgs): PaginatedOrders!
+  parentId: String
+  periods(filter: SubscriptionPeriodFilterDto, pagination: PaginationArgs): PaginatedSubscriptionPeriods!
+  phoneNumberMsisdn: String
+  phoneNumbers(filter: PhoneNumberFilterDto, pagination: PaginationArgs): PaginatedPhoneNumberAssignments!
+  simIccid: String
+  sims(filter: SimFilterDto, pagination: PaginationArgs): PaginatedSimAssignments!
+  status: SubscriptionStatus!
+  user: UserDto!
+  userId: String!
+}
+
+input SubscriptionFilterDto {
+  email: String
+  hasParent: Boolean
+  iccid: String
+  id: String
+  msisdn: String
+  status: SubscriptionStatus
+}
+
+type SubscriptionHistoryDto {
+  id: String!
+  phoneNumberMsisdn: String
+  simIccid: String
+  subscriptionId: String!
+  timestamp: DateTime!
+  usage: [SubscriptionUsageDto!]!
+}
+
+type SubscriptionPeriodDto {
+  createdAt: DateTime!
+  endsAt: DateTime!
+  id: String!
+  newestOrder: OrderDto
+  offerId: String!
+  orders(filter: OrderFilterDto, pagination: PaginationArgs): PaginatedOrders!
+  startsAt: DateTime!
+  status: SubscriptionPeriodStatus!
+}
+
+input SubscriptionPeriodFilterDto {
+  status: SubscriptionPeriodStatus
+}
+
+enum SubscriptionPeriodStatus {
+  CANCELLED
+  DONE
+  FAILED
+  PENDING
+  PROCESSING
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  DEACTIVATED
+  PENDING
+  SUSPENDED
+}
+
+type SubscriptionUsageDto {
+  amount: DecimalNumber!
+  id: String!
+  isRoaming: Boolean!
+  isUnlimited: Boolean!
+  total: DecimalNumber
+  type: VolumeType!
+}
+
+enum TaxProvider {
+  MOCK
+}
+
+enum TelcoProvider {
+  MOCK
+}
+
+type TokenBalanceDto {
+  balance: DecimalNumber!
+  balanceInUsd: DecimalNumber
+  decimals: Int!
+  exchangeRateUsd: DecimalNumber
+  image: String!
+  name: String!
+  symbol: String!
+}
+
+input UpdateUserGroupDto {
+  isDefaultGroup: Boolean!
+  isNewWalletEnabled: Boolean!
+  isPromoCodeFieldEnabled: Boolean!
+}
+
+type UserAuthDataDto {
+  data: String!
+  id: String!
+  provider: AuthProvider!
+  strategy: String!
+}
+
+type UserBillingDataDto {
+  data: String!
+  id: String!
+  provider: String!
+}
+
+type UserDto {
+  addresses: [AddressDto!]!
+  authData: [UserAuthDataDto!]!
+  billingData: [UserBillingDataDto!]!
+  createdAt: DateTime!
+  creditBalance: DecimalNumber!
+  credits(filter: CreditFilterDto, pagination: PaginationArgs): PaginatedCredits!
+  deletedAt: DateTime
+  email: String!
+  firstName: String!
+  group: UserGroupDto
+  groupId: String
+  id: String!
+  invoices(filter: InvoiceFilterDto, pagination: PaginationArgs): PaginatedInvoices!
+  lastName: String!
+  onboardingProgress: [OnboardingProgressDto!]!
+  orders(filter: OrderFilterDto, pagination: PaginationArgs): PaginatedOrders!
+  subscriptions(filter: SubscriptionFilterDto, pagination: PaginationArgs): PaginatedSubscriptions!
+  wallets(filter: WalletFilterDto, pagination: PaginationArgs): PaginatedWallets!
+}
+
+input UserFilterDto {
+  email: String
+  name: String
+  userId: String
+}
+
+type UserGroupDto {
+  id: String!
+  isDefaultGroup: Boolean!
+  isNewWalletEnabled: Boolean!
+  isPromoCodeFieldEnabled: Boolean!
+  name: String!
+}
+
+input UserGroupFilterDto {
+  search: String
+}
+
+type UserHistoryStatCountDto {
+  count: Int!
+  name: String!
+}
+
+type UserHistoryStatDto {
+  counts: [UserHistoryStatCountDto!]!
+  timestamp: DateTime!
+}
+
+enum UserOrderByColumn {
+  createdAt
+  email
+  firstName
+  lastName
+}
+
+input UserOrderByDto {
+  col: UserOrderByColumn!
+  dir: SortOrder!
+}
+
+type VolumeDto {
+  amount: DecimalNumber!
+  id: String!
+  isRoaming: Boolean!
+  isUnlimited: Boolean!
+  type: VolumeType!
+}
+
+enum VolumeType {
+  CALL
+  CREDIT
+  DATA
+  TEXT
+}
+
+type VolumeUsageDto {
+  amountTotal: DecimalNumber!
+  amountUsed: DecimalNumber!
+  isRoaming: Boolean!
+  isUnlimited: Boolean!
+  subscriptionId: String
+  type: VolumeType!
+}
+
+type WalletDto {
+  address: String!
+  cloudBackupAt: DateTime
+  createdAt: DateTime!
+  id: String!
+  localBackupAt: DateTime
+  provider: WalletProvider!
+  tokens: [TokenBalanceDto!]!
+  updatedAt: DateTime!
+  userId: String!
+}
+
+input WalletFilterDto {
+  address: String
+}
+
+enum WalletProvider {
+  SOLANA
+}

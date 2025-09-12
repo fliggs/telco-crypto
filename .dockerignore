@@ -1,0 +1,7 @@
+packages/**/node_modules
+packages/**/Dockerfile
+packages/**/.dockerignore
+packages/**/.git
+packages/**/.gitignore
+packages/**/.env
+packages/**/.env.local

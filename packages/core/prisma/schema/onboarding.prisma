@@ -1,0 +1,42 @@
+enum OnboardingStageType {
+  CONTENT
+  ADDRESS
+  PAYMENT
+  ORDER_PLAN
+  ORDER_MSISDN
+  ORDER_SIM_TYPE
+  ORDER_CONFIRM
+  ORDER_PROCESS
+  KYC
+}
+
+model OnboardingStage {
+  name      String              @id
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @default(now()) @updatedAt
+  sort      Int
+  type      OnboardingStageType
+  required  Boolean
+  content   Json /// [ContentData]
+  data      Json /// [OnboardingData]
+
+  progresses OnboardingProgress[]
+
+  @@index([sort])
+}
+
+model OnboardingProgress {
+  id          String    @id @default(uuid()) @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  stageName String
+  stage     OnboardingStage @relation(fields: [stageName], references: [name])
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, stageName])
+}

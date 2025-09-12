@@ -1,0 +1,12 @@
+model Country {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  name      String
+  favourite Boolean  @default(false)
+  roaming   Boolean  @default(false)
+  rate      Decimal? @db.Decimal(19, 4)
+
+  @@unique([name])
+  @@index([favourite, name])
+}

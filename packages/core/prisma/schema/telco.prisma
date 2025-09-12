@@ -1,0 +1,68 @@
+enum TelcoProvider {
+  MOCK
+}
+
+model PlanTelcoData {
+  id        String        @id @default(uuid()) @db.Uuid
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  provider  TelcoProvider
+  data      Json
+
+  planId String @db.Uuid
+  plan   Plan   @relation(fields: [planId], references: [id])
+
+  @@unique([provider, planId])
+}
+
+model SimTelcoData {
+  id        String        @id @default(uuid()) @db.Uuid
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  provider  TelcoProvider
+  data      Json
+
+  simIccid String
+  sim      Sim    @relation(fields: [simIccid], references: [iccid])
+
+  @@unique([provider, simIccid])
+}
+
+model PhoneNumberTelcoData {
+  id        String        @id @default(uuid()) @db.Uuid
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  provider  TelcoProvider
+  data      Json
+
+  phoneNumberMsisdn String
+  phoneNumber       PhoneNumber @relation(fields: [phoneNumberMsisdn], references: [msisdn])
+
+  @@unique([provider, phoneNumberMsisdn])
+}
+
+model SubscriptionTelcoData {
+  id        String        @id @default(uuid()) @db.Uuid
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  provider  TelcoProvider
+  data      Json
+
+  subscriptionId String       @db.Uuid
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+
+  @@unique([provider, subscriptionId])
+}
+
+model SubscriptionHistoryTelcoData {
+  id        String        @id @default(uuid()) @db.Uuid
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  provider  TelcoProvider
+  data      Json
+
+  subscriptionHistoryId String              @db.Uuid
+  subscriptionHistory   SubscriptionHistory @relation(fields: [subscriptionHistoryId], references: [id])
+
+  @@unique([provider, subscriptionHistoryId])
+}

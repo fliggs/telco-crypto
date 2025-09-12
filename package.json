@@ -1,0 +1,12 @@
+{
+  "name": "telco-crypto",
+  "version": "0.0.1",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "gen-client": "openapi-generator-cli generate && cd packages/api-client-ts && (pnpm --filter=api-client-ts install && pnpm build || true) && cd ../.."
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.17.0"
+  }
+}

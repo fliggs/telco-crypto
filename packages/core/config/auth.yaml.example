@@ -1,0 +1,64 @@
+google:
+  user:
+    title: Google
+    admin: false
+    clientId: xxxx
+    iOSClientId: xxxx
+    clientSecretEnv: AUTH_USER_GOOGLE_CLIENT_SECRET
+    allowedAudience:
+      - xxxx
+      - xxxx
+    redirectUrls: 
+      - http://localhost:3000/sign-in
+    tags:
+      - web
+      - ios
+      - android
+
+apple:
+  user:
+    admin: false
+    title: Apple
+    clientId: xxxx
+    clientSecretEnv: AUTH_USER_APPLE_CLIENT_SECRET
+    scope: email profile openid
+    allowedAudience:
+      - xxxx
+    redirectUrls:
+      - http://localhost:3000/sign-in
+    tags:
+      - web
+      - ios
+      - android
+
+open-id:
+  microsoft:
+    admin: true
+    title: Microsoft
+    scope: email profile openid
+    issuerUrl: "https://login.microsoftonline.com/xxxx/v2.0"
+    redirectUrls:
+      - http://localhost:4000/login/open-id/microsoft
+    clientId: xxxx
+    clientSecretEnv: AUTH_ADMIN_MICROSOFT_CLIENT_SECRET
+    allowedAudience:
+      - xxxx
+    allowedIssuer:
+      - https://login.microsoftonline.com/xxxx/v2.0
+    tags:
+      - dashboard
+
+local:
+  user:
+    admin: false
+    title: Local
+    tags:
+      - web
+      - ios
+      - android
+
+  admin:
+    admin: true
+    title: Local
+    tags:
+      - dashboard

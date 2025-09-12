@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: oss
+    volumes:
+      - oss:/var/lib/postgresql/data
+    networks:
+      - oss
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    networks:
+      - oss
+
+  core:
+    build: ./packages/core
+    restart: unless-stopped
+    profiles:
+      - run
+    ports:
+      - "2000:2000"
+    environment:
+      HOST: "0.0.0.0"
+      DATABASE_URL: "postgresql://root:root@db:5432/oss?schema=public"
+      JWT_SECRET: "CHANGE ME"
+      BILLING_PROVIDER: "mock"
+      TELCO_PROVIDER: "mock"
+    networks:
+      - oss
+
+networks:
+  oss:
+    name: oss
+
+volumes:
+  oss:
+    name: oss

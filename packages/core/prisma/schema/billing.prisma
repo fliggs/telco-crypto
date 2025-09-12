@@ -1,0 +1,25 @@
+model UserBillingData {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  provider  String
+  data      Json
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([provider, userId])
+}
+
+model InvoiceBillingData {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  provider  String
+  data      Json
+
+  invoiceId String  @db.Uuid
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  @@unique([provider, invoiceId])
+}

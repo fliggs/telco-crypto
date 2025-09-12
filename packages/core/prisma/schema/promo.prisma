@@ -1,0 +1,40 @@
+model PromoCode {
+  id              String    @id @default(uuid()) @db.Uuid
+  code            String    @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
+  isActive        Boolean
+  validFrom       DateTime?
+  validUntil      DateTime?
+  maxActivations  Int?
+  usedActivations Int       @default(0)
+  receiverEmail   String?
+  content         Json /// [ContentData]
+
+  receiverId String? @db.Uuid
+  receiver   User?   @relation("receiver", fields: [receiverId], references: [id])
+
+  ownerId String? @db.Uuid
+  owner   User?   @relation("owner", fields: [ownerId], references: [id])
+
+  offers           Offer[]
+  activations      PromoCodeActivation[]
+  ordersAddPlan    OrderAddPlanDetails[]
+  ordersRenewPlan  OrderRenewPlanDetails[]
+  ordersChangePlan OrderChangePlanDetails[]
+}
+
+model PromoCodeActivation {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  promoCodeId String    @db.Uuid
+  promoCode   PromoCode @relation(fields: [promoCodeId], references: [id])
+
+  orderId String @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  subscriptionId String?       @db.Uuid
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+}

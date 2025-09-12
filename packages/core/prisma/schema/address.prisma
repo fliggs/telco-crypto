@@ -1,0 +1,26 @@
+enum AddressType {
+  E911
+  Billing
+  Shipping
+}
+
+model Address {
+  id         String      @id @default(uuid()) @db.Uuid
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now()) @updatedAt
+  type       AddressType
+  name       String?
+  line1      String
+  line2      String
+  line3      String
+  line4      String
+  city       String
+  postalCode String
+  province   String
+  country    String
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, type])
+}

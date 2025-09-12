@@ -1,0 +1,48 @@
+model Plan {
+  id              String   @id @default(uuid()) @db.Uuid
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
+  /// Unique internal name of this plan
+  name            String
+  /// The version of this plan
+  version         Int
+  /// True if this is a standalone plan, false otherwise
+  isStandalone    Boolean
+  /// Amount of seconds that this plan is valid for until it expires
+  validForSeconds Int
+  /// True if this plan should automatically renew, false otherwise
+  doesAutoRenew   Boolean
+  /// LEADING to use the period start as the reference for billingOffset, TRAILING to use the period end
+  billingEdge     EdgeType
+  /// Offset from the billingEdge in seconds, negative = before the edge, positive = after the edge
+  billingOffset   Int
+  /// LEADING to use the period start as the reference for telcoOffset, TRAILING to use the period end
+  telcoEdge       EdgeType
+  /// Offset from the telcoEdge in seconds, negative = before the edge, positive = after the edge
+  telcoOffset     Int
+  /// [ContentData]
+  content         Json
+
+  volumes   Volume[]
+  telcoData PlanTelcoData[]
+  offers    Offer[]
+  taxData   PlanTaxData[]
+  parents   PlanToPlan[]    @relation(name: "child")
+  children  PlanToPlan[]    @relation(name: "parent")
+
+  @@unique([name, version])
+}
+
+model PlanToPlan {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  parentId String @db.Uuid
+  parent   Plan   @relation(name: "parent", fields: [parentId], references: [id])
+
+  childId String @db.Uuid
+  child   Plan   @relation(name: "child", fields: [childId], references: [id])
+
+  @@unique([parentId, childId])
+}

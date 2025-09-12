@@ -1,0 +1,37 @@
+enum RewardType {
+  CASHBACK_CREDITS
+  CASHBACK_CRYPTO
+}
+
+model Reward {
+  id         String     @id @default(uuid()) @db.Uuid
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now()) @updatedAt
+  name       String
+  type       RewardType
+  isActive   Boolean
+  validFrom  DateTime?
+  validUntil DateTime?
+  data       Json
+  content    Json /// [ContentData]
+
+  offers  Offer[]
+  payouts RewardPayout[]
+}
+
+model RewardPayout {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  data      Json
+  cost      Decimal  @db.Decimal(19, 4)
+
+  rewardId String @db.Uuid
+  reward   Reward @relation(fields: [rewardId], references: [id])
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  offerId String @db.Uuid
+  offer   Offer  @relation(fields: [offerId], references: [id])
+}

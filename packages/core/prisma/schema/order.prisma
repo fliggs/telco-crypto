@@ -1,0 +1,164 @@
+enum OrderStatus {
+  DRAFT
+  CONFIRMED
+  PENDING
+  PROCESSING
+  ERROR
+  DONE
+  ABORTED
+}
+
+enum OrderAction {
+  RUN
+  ABORT
+}
+
+enum OrderType {
+  ADD_PLAN
+  RENEW_PLAN
+  CHANGE_PLAN
+  CHANGE_SIM
+  CHANGE_PHONE_NUMBER
+  DEACTIVATE_PLAN
+  REACTIVATE_PLAN
+  PORT_IN
+  PORT_OUT
+}
+
+model Order {
+  id          String      @id @default(uuid()) @db.Uuid
+  type        OrderType
+  status      OrderStatus
+  action      OrderAction
+  stepNo      Int?
+  attempts    Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now()) @updatedAt
+  runAt       DateTime?
+  confirmedAt DateTime?
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  subscriptionId String?       @db.Uuid
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  currentStep OrderStep? @relation(name: "currentStep", fields: [id, stepNo], references: [orderId, stepNo])
+
+  addPlan           OrderAddPlanDetails?
+  renewPlan         OrderRenewPlanDetails?
+  changePlan        OrderChangePlanDetails?
+  deactivatePlan    OrderDeactivatePlanDetails?
+  reactivatePlan    OrderReactivatePlanDetails?
+  portOut           OrderPortOutDetails?
+  changeSim         OrderChangeSimDetails?
+  changePhoneNumber OrderChangePhoneNumberDetails?
+  shipping          OrderShippingDetails?
+  signing           OrderSigningDetails?
+
+  steps                OrderStep[]
+  runs                 OrderRun[]
+  creditUsages         CreditUsage[]
+  taxData              OrderTaxData[]
+  invoices             Invoice[]
+  promoCodeActivations PromoCodeActivation[]
+  logEvents            LogEvent[]
+
+  @@unique([id, stepNo])
+  @@index([createdAt])
+  @@index([status])
+}
+
+enum OrderStepStatus {
+  PENDING
+  PROCESSING
+  ERROR
+  DONE
+  ABORTED
+  SKIPPED
+}
+
+model OrderStep {
+  stepNo      Int
+  type        String
+  status      OrderStepStatus
+  action      OrderAction
+  attempts    Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now()) @updatedAt
+  startedAt   DateTime?
+  completedAt DateTime?
+  result      Json?
+  error       Json?
+
+  orderId String @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  currentOrder Order? @relation(name: "currentStep")
+
+  runSteps OrderRunStep[]
+
+  @@id([orderId, stepNo])
+}
+
+enum OrderRunStatus {
+  PROCESSING
+  DONE
+  ERROR
+}
+
+model OrderRun {
+  id          String         @id @default(uuid()) @db.Uuid
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @default(now()) @updatedAt
+  completedAt DateTime?
+  status      OrderRunStatus
+  action      OrderAction
+  stepNo      Int?
+  result      Json?
+  error       Json?
+
+  orderId String @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  currentStep OrderRunStep? @relation(name: "currentStep", fields: [id, stepNo], references: [runId, stepNo])
+
+  steps OrderRunStep[]
+
+  @@unique([id, stepNo])
+  @@index([orderId, createdAt])
+}
+
+enum OrderRunStepStatus {
+  PENDING
+  PROCESSING
+  DONE
+  ERROR
+  SKIPPED
+}
+
+model OrderRunStep {
+  stepNo      Int
+  type        String
+  status      OrderRunStepStatus
+  action      OrderAction
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @default(now()) @updatedAt
+  startedAt   DateTime?
+  completedAt DateTime?
+  result      Json?
+  error       Json?
+
+  runId String   @db.Uuid
+  run   OrderRun @relation(fields: [runId], references: [id])
+
+  orderId String    @db.Uuid
+  step    OrderStep @relation(fields: [orderId, stepNo], references: [orderId, stepNo])
+
+  currentRun OrderRun? @relation(name: "currentStep")
+
+  @@id([runId, stepNo])
+  @@index([orderId, stepNo])
+}

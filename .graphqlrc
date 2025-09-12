@@ -1,0 +1,3 @@
+schema: 'packages/core/schema.gql'
+documents: 
+- 'packages/dashboard/**/*.{tsx,ts}'

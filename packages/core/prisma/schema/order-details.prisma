@@ -1,0 +1,121 @@
+model OrderPortOutDetails {
+  accountNumber String?
+  password      String?
+  approved      Boolean @default(false)
+  completed     Boolean @default(false)
+  request       Json?
+  error         Json?
+
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+}
+
+model OrderRenewPlanDetails {
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  offerId String @db.Uuid
+  offer   Offer  @relation(fields: [offerId], references: [id])
+
+  subscriptionPeriodId String             @db.Uuid
+  subscriptionPeriod   SubscriptionPeriod @relation(fields: [subscriptionPeriodId], references: [id])
+
+  promoCodeId String?    @db.Uuid
+  promoCode   PromoCode? @relation(fields: [promoCodeId], references: [id])
+}
+
+model OrderChangePlanDetails {
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  offerId String @db.Uuid
+  offer   Offer  @relation(fields: [offerId], references: [id])
+
+  promoCodeId String?    @db.Uuid
+  promoCode   PromoCode? @relation(fields: [promoCodeId], references: [id])
+}
+
+model OrderDeactivatePlanDetails {
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+}
+
+model OrderReactivatePlanDetails {
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  offerId String? @db.Uuid
+  offer   Offer?  @relation(fields: [offerId], references: [id])
+}
+
+model OrderChangeSimDetails {
+  newSimType  SimType
+  newSimIccid String?
+
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+}
+
+model OrderChangePhoneNumberDetails {
+  portIn              Boolean @default(false)
+  portInMsisdn        String?
+  portInPostalCode    String?
+  portInAccountNumber String?
+  portInPassword      String?
+
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+}
+
+model OrderAddPlanDetails {
+  simType             SimType @default(E_SIM)
+  simIccid            String?
+  portIn              Boolean @default(false)
+  portInMsisdn        String?
+  portInPostalCode    String?
+  portInAccountNumber String?
+  portInPassword      String?
+
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  offerId String @db.Uuid
+  offer   Offer  @relation(fields: [offerId], references: [id])
+
+  parentSubscriptionId String?       @db.Uuid
+  parentSubscription   Subscription? @relation(name: "parentSubscription", fields: [parentSubscriptionId], references: [id])
+
+  subscriptionPeriodId String?             @db.Uuid
+  subscriptionPeriod   SubscriptionPeriod? @relation(fields: [subscriptionPeriodId], references: [id])
+
+  promoCodeId String?    @db.Uuid
+  promoCode   PromoCode? @relation(fields: [promoCodeId], references: [id])
+}
+
+model OrderShippingDetails {
+  name       String
+  line1      String
+  line2      String
+  line3      String
+  line4      String
+  city       String
+  postalCode String
+  province   String
+  country    String
+  shippedAt  DateTime?
+
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+}
+
+model OrderSigningDetails {
+  message   String?
+  signedAt  DateTime?
+  signature String?
+
+  orderId String @id @db.Uuid
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  walletId String? @db.Uuid
+  wallet   Wallet? @relation(fields: [walletId], references: [id])
+}

@@ -1,0 +1,4591 @@
+openapi: 3.0.0
+paths:
+  /v1:
+    get:
+      operationId: appHelloV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '429':
+          description: Rate limited
+      tags:
+        - App
+  /v1/users/me:
+    get:
+      operationId: meFindMeV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicMeDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: &ref_0
+        - Me
+    patch:
+      operationId: meUpdateMeV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMeDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/invoices:
+    get:
+      operationId: meFindMyInvoicesV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicInvoiceWithOrderAndItemsDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/credit-balance:
+    get:
+      operationId: meGetCreditBalanceV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/onboarding:
+    get:
+      operationId: meFindMyOnboardingProgressV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicOnboardingProgressDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    put:
+      operationId: meUpdateMyOnboardingProgressV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyOnboardingProgressDto'
+      responses:
+        '200':
+          description: ''
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/orders:
+    get:
+      deprecated: true
+      operationId: meFindMyOrdersV1
+      parameters:
+        - name: types
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrderType'
+        - name: status
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrderStatus'
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      summary: ''
+      tags: *ref_0
+    post:
+      operationId: meCreateMyOrderV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMyOrderDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v2/users/me/orders:
+    get:
+      operationId: meFindMyOrdersV2
+      parameters:
+        - name: status
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrderStatus'
+        - name: type
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrderType'
+        - name: step
+          required: false
+          in: query
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicOrderDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/orders/{orderId}:
+    get:
+      deprecated: true
+      operationId: meFindMyOrderV1
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      summary: ''
+      tags: *ref_0
+    patch:
+      deprecated: true
+      operationId: meUpdateMyOrderV1
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyOrderDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      summary: ''
+      tags: *ref_0
+  /v2/users/me/orders/{orderId}:
+    get:
+      operationId: meFindMyOrderV2
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithDetailsDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    patch:
+      deprecated: true
+      operationId: meUpdateMyOrderV2
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyOrderV2Dto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      summary: ''
+      tags: *ref_0
+  /v3/users/me/orders/{orderId}:
+    patch:
+      operationId: meUpdateMyOrderV3
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyOrderV2Dto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithDetailsDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/orders/{orderId}/sim-selection:
+    patch:
+      operationId: meUpdateMyOrderSimSelectionV1
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyOrderStepAttachSimDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/orders/{orderId}/steps/ATTACH_SIM/{stepId}:
+    patch:
+      operationId: meUpdateMyOrderStepAttachSimV1
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: stepId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyOrderStepAttachSimDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/orders/{orderId}/steps/current/SIGN:
+    patch:
+      operationId: meUpdateMyOrderStepSignV1
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyOrderStepSignDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrderWithDetailsDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/orders/{orderId}/taxes:
+    get:
+      operationId: meFindMyOrderTaxesV1
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicTaxItemDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions:
+    get:
+      operationId: meFindMySubscriptionsV1
+      parameters:
+        - name: baseOnly
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicSubscriptionWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions/{subId}:
+    get:
+      operationId: meFindMySubscriptionV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSubscriptionWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    put:
+      operationId: meUncancelMySubscriptionV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSubscriptionDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    patch:
+      operationId: meUpdateMySubscriptionV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMySubscriptionDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSubscriptionDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    delete:
+      operationId: meDeleteMySubscriptionV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSubscriptionDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions/{subId}/periods:
+    get:
+      operationId: meFindMySubscriptionPeriodsV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicSubscriptionPeriodWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions/{subId}/orders:
+    get:
+      operationId: meFindMySubscriptionOrdersV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicOrderWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions/{subId}/offers:
+    get:
+      operationId: meFindMySubscriptionOffersV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicOfferWithPlanWithVolumesDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions/{subId}/children:
+    get:
+      operationId: meFindMySubscriptionChildrenV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicSubscriptionWithOfferDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions/{subId}/sims/active/details:
+    get:
+      operationId: meFindMySubscriptionActiveSimDetailsV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSimDetailsDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/subscriptions/{subId}/sims/active/usage:
+    get:
+      operationId: meFindMySubscriptionActiveSimUsageV1
+      parameters:
+        - name: subId
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicVolumeUsageDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/addresses:
+    get:
+      operationId: meFindMyAddressesV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicAddressDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/addresses/{type}:
+    get:
+      operationId: meFindMyAddressV1
+      parameters:
+        - name: type
+          required: true
+          in: path
+          schema:
+            $ref: '#/components/schemas/AddressType'
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicAddressDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    put:
+      operationId: meChangeMyAddressV1
+      parameters:
+        - name: type
+          required: true
+          in: path
+          schema:
+            $ref: '#/components/schemas/AddressType'
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeMyAddressDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicAddressDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/wallets:
+    get:
+      operationId: meFindMyWalletsV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicWalletDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    post:
+      operationId: meCreateMyWalletV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMyWalletDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicWalletDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/wallets/{walletIdOrAddress}:
+    patch:
+      operationId: meUpdateMyWalletV1
+      parameters:
+        - name: walletIdOrAddress
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMyWalletDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicWalletDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/wallets/{walletIdOrAddress}/validate:
+    get:
+      operationId: meGetMySigningRequestV1
+      parameters:
+        - name: walletIdOrAddress
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSigningRequestDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+    post:
+      operationId: meValidateMyWalletV1
+      parameters:
+        - name: walletIdOrAddress
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateMyWalletDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/wallets/{walletIdOrAddress}/tokens:
+    get:
+      operationId: meFindMyWalletTokensV1
+      parameters:
+        - name: walletIdOrAddress
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicTokenBalanceDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/wallets/{walletIdOrAddress}/tokens/{token}/history:
+    get:
+      operationId: meGetMyWalletTokenHistoryV1
+      parameters:
+        - name: walletIdOrAddress
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: token
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: days
+          required: false
+          in: query
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicTokenHistoryDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/users/me/wallets/{walletIdOrAddress}/certificates:
+    get:
+      operationId: meFindMyWalletCertificatesV1
+      parameters:
+        - name: walletIdOrAddress
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicCertificateDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_0
+  /v1/telco/check-coverage:
+    post:
+      operationId: telcoCheckCoverageV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckCoverageDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicCoverageDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: &ref_1
+        - Telco
+  /v1/telco/check-portin:
+    post:
+      operationId: telcoCheckPortInV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckPortInDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicPortInDto'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_1
+  /v1/offer/public:
+    get:
+      operationId: offerFindAllPublicValidV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicOfferWithPlanWithVolumesDto'
+        '429':
+          description: Rate limited
+      tags:
+        - Offer
+  /v1/onboarding/public:
+    get:
+      operationId: onboardingFindAllPublicStagesV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicOnboardingStageDto'
+        '429':
+          description: Rate limited
+      tags:
+        - Onboarding
+  /v1/auth:
+    get:
+      operationId: authFindStrategiesV1
+      parameters:
+        - name: admin
+          required: true
+          in: query
+          schema:
+            type: boolean
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicAuthStrategyDto'
+        '429':
+          description: Rate limited
+      tags: &ref_2
+        - Auth
+  /v1/auth/logout:
+    post:
+      operationId: authLogoutV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_2
+  /v1/auth/refresh:
+    post:
+      operationId: authRefreshV1
+      parameters:
+        - name: refreshToken
+          required: false
+          in: query
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_2
+  /v1/sessions:
+    get:
+      operationId: sessionRefreshSessionV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags:
+        - Session
+  /v1/auth/open-id:
+    get:
+      operationId: openIdFindStrategiesV1
+      parameters:
+        - name: admin
+          required: true
+          in: query
+          schema:
+            type: boolean
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicAuthStrategyDto'
+        '429':
+          description: Rate limited
+      tags: &ref_3
+        - Auth
+  /v1/auth/open-id/{strategy}/login:
+    post:
+      operationId: openIdLoginRedeemV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthOpenIdLoginRedeemDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_3
+  /v1/auth/open-id/{strategy}/exchange:
+    get:
+      operationId: openIdExchangeStartV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicExchangeDto'
+        '429':
+          description: Rate limited
+      tags: *ref_3
+    post:
+      operationId: openIdExchangeCallbackV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthOpenIdExchangeCallbackDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_3
+  /v1/auth/local:
+    get:
+      operationId: localFindStrategiesV1
+      parameters:
+        - name: admin
+          required: true
+          in: query
+          schema:
+            type: boolean
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicAuthStrategyDto'
+        '429':
+          description: Rate limited
+      tags: &ref_4
+        - Auth
+  /v1/auth/local/{strategy}/login:
+    post:
+      operationId: localLoginV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_4
+  /v1/auth/local/{strategy}/signup:
+    post:
+      operationId: localSignupV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupDto'
+      responses:
+        '201':
+          description: ''
+        '429':
+          description: Rate limited
+      tags: *ref_4
+  /v1/auth/local/{strategy}/change-unverified-email:
+    patch:
+      operationId: localChangeEmailV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeUnverifiedEmailDto'
+      responses:
+        '200':
+          description: ''
+        '429':
+          description: Rate limited
+      tags: *ref_4
+  /v1/auth/local/{strategy}/reset:
+    put:
+      operationId: localResetPasswordV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordDto'
+      responses:
+        '200':
+          description: ''
+        '429':
+          description: Rate limited
+      tags: *ref_4
+    post:
+      operationId: localSetPasswordV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPasswordDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_4
+  /v1/auth/local/{strategy}/verify:
+    put:
+      operationId: localResetVerifyV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetVerifyDto'
+      responses:
+        '200':
+          description: ''
+        '429':
+          description: Rate limited
+      tags: *ref_4
+    post:
+      operationId: localVerifyV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_4
+  /v1/auth/apple:
+    get:
+      operationId: authAppleFindStrategiesV1
+      parameters:
+        - name: admin
+          required: true
+          in: query
+          schema:
+            type: boolean
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicAuthStrategyDto'
+        '429':
+          description: Rate limited
+      tags: &ref_5
+        - Auth
+  /v1/auth/apple/{strategy}/login:
+    post:
+      operationId: authAppleLoginRedeemV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthAppleLoginRedeemDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_5
+  /v2/auth/apple/{strategy}/exchange:
+    get:
+      operationId: authAppleExchangeStartV2
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicAuthAppleExchangeDto'
+        '429':
+          description: Rate limited
+      tags: *ref_5
+    post:
+      operationId: authAppleExchangeCallbackV2
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthAppleExchangeCallbackDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_5
+  /v1/auth/apple/{strategy}:
+    get:
+      operationId: authAppleSetupV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicAuthAppleExchangeDto'
+        '429':
+          description: Rate limited
+      tags: *ref_5
+    post:
+      operationId: authAppleExchangeV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthAppleExchangeCallbackDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_5
+  /v1/auth/google:
+    get:
+      operationId: authGoogleFindStrategiesV1
+      parameters:
+        - name: admin
+          required: true
+          in: query
+          schema:
+            type: boolean
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicAuthStrategyDto'
+        '429':
+          description: Rate limited
+      tags: &ref_6
+        - Auth
+  /v1/auth/google/{strategy}/login:
+    post:
+      operationId: authGoogleLoginRedeemV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthGoogleLoginRedeemDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_6
+  /v2/auth/google/{strategy}/exchange:
+    get:
+      operationId: authGoogleExchangeStartV2
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicAuthGoogleExchangeDto'
+        '429':
+          description: Rate limited
+      tags: *ref_6
+    post:
+      operationId: authGoogleExchangeCallbackV2
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthGoogleExchangeCallbackDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_6
+  /v1/auth/google/{strategy}:
+    get:
+      operationId: authGoogleExchangeStartV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicAuthGoogleExchangeDto'
+        '429':
+          description: Rate limited
+      tags: *ref_6
+    post:
+      operationId: authGoogleExchangeCallbackV1
+      parameters:
+        - name: strategy
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthGoogleExchangeCallbackDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicSessionTokensDto'
+        '429':
+          description: Rate limited
+      tags: *ref_6
+  /v1/promo-codes/by-code/{code}:
+    get:
+      operationId: promoCodeFindByCodeV1
+      parameters:
+        - name: code
+          required: true
+          in: path
+          schema:
+            type: string
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicPromoCodeWithOffersDto'
+        '429':
+          description: Rate limited
+      tags:
+        - PromoCode
+  /v1/settings/terms-conditions:
+    get:
+      operationId: settingsGetTermsAndConditionsV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '429':
+          description: Rate limited
+      tags: &ref_7
+        - Settings
+  /v2/settings/terms-conditions:
+    get:
+      operationId: settingsGetTermsAndConditionsV2
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicContentDto'
+        '429':
+          description: Rate limited
+      tags: *ref_7
+  /v1/settings/privacy-policy:
+    get:
+      operationId: settingsGetPrivacyPolicyV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '429':
+          description: Rate limited
+      tags: *ref_7
+  /v2/settings/privacy-policy:
+    get:
+      operationId: settingsGetPrivacyPolicyV2
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicContentDto'
+        '429':
+          description: Rate limited
+      tags: *ref_7
+  /v1/settings/faqs:
+    get:
+      operationId: settingsGetFaqsV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicContentDto'
+        '429':
+          description: Rate limited
+      tags: *ref_7
+  /v1/settings/supported-devices:
+    get:
+      operationId: settingsGetSupportedDevicesV1
+      parameters:
+        - name: name
+          required: false
+          in: query
+          schema: {}
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicDeviceDto'
+        '429':
+          description: Rate limited
+      tags: *ref_7
+  /v1/settings/supported-countries:
+    get:
+      operationId: settingsGetSupportedCountriesV1
+      parameters:
+        - name: name
+          required: false
+          in: query
+          schema: {}
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicCountryDto'
+        '429':
+          description: Rate limited
+      tags: *ref_7
+  /v1/settings/order-step-retries:
+    get:
+      operationId: settingsGetOrderStepRetriesV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: number
+        '401':
+          description: Unauthorized
+        '403':
+          description: Access denied
+        '429':
+          description: Rate limited
+      security:
+        - bearer: []
+        - cookie: []
+      tags: *ref_7
+  /v1/device:
+    get:
+      operationId: deviceFindDevicesV1
+      parameters:
+        - name: name
+          required: false
+          in: query
+          schema: {}
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicDeviceDto'
+        '429':
+          description: Rate limited
+      tags:
+        - Device
+  /v1/country:
+    get:
+      operationId: countryFindDevicesV1
+      parameters:
+        - name: name
+          required: false
+          in: query
+          schema: {}
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicCountryDto'
+        '429':
+          description: Rate limited
+      tags:
+        - Country
+  /v1/health:
+    get:
+      operationId: healthCheckV1
+      parameters:
+        - in: header
+          name: x-auth-provider
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: x-auth-strategy
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The Health Check is successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  info:
+                    type: object
+                    example: &ref_8
+                      database: &ref_9
+                        status: up
+                    additionalProperties:
+                      type: object
+                      required:
+                        - status
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties: true
+                    nullable: true
+                  error:
+                    type: object
+                    example: {}
+                    additionalProperties:
+                      type: object
+                      required:
+                        - status
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties: true
+                    nullable: true
+                  details:
+                    type: object
+                    example: *ref_8
+                    additionalProperties:
+                      type: object
+                      required:
+                        - status
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties: true
+        '429':
+          description: Rate limited
+        '503':
+          description: The Health Check is not successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  info:
+                    type: object
+                    example: *ref_8
+                    additionalProperties:
+                      type: object
+                      required:
+                        - status
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties: true
+                    nullable: true
+                  error:
+                    type: object
+                    example:
+                      redis: &ref_10
+                        status: down
+                        message: Could not connect
+                    additionalProperties:
+                      type: object
+                      required:
+                        - status
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties: true
+                    nullable: true
+                  details:
+                    type: object
+                    example:
+                      database: *ref_9
+                      redis: *ref_10
+                    additionalProperties:
+                      type: object
+                      required:
+                        - status
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties: true
+      tags:
+        - Health
+info:
+  title: Fliggs
+  description: This is our cool new API
+  version: '0.1'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    PublicUserSettingsDto:
+      type: object
+      properties:
+        email:
+          type: boolean
+        mail:
+          type: boolean
+        sms:
+          type: boolean
+        cpni:
+          type: boolean
+    PublicMeDto:
+      type: object
+      properties:
+        isNewWalletEnabled:
+          type: boolean
+        isPromoCodeFieldEnabled:
+          type: boolean
+        provider:
+          type: string
+        strategy:
+          type: string
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        settings:
+          $ref: '#/components/schemas/PublicUserSettingsDto'
+      required:
+        - isNewWalletEnabled
+        - isPromoCodeFieldEnabled
+        - provider
+        - strategy
+        - id
+        - createdAt
+        - email
+        - firstName
+        - lastName
+        - settings
+    WalletCashbackCurrency:
+      type: string
+      enum:
+        - SOL
+        - USDC
+        - WBTC
+    UpdateUserSettingsDto:
+      type: object
+      properties:
+        cashbackCurrency:
+          allOf:
+            - $ref: '#/components/schemas/WalletCashbackCurrency'
+        email:
+          type: boolean
+        mail:
+          type: boolean
+        sms:
+          type: boolean
+        cpni:
+          type: boolean
+    UpdateMeDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        settings:
+          $ref: '#/components/schemas/UpdateUserSettingsDto'
+    PublicSessionTokensDto:
+      type: object
+      properties:
+        token:
+          type: string
+        expires:
+          type: string
+        refreshToken:
+          type: string
+        refreshExpires:
+          type: string
+      required:
+        - token
+        - expires
+        - refreshToken
+        - refreshExpires
+    PublicInvoiceItemDto:
+      type: object
+      properties:
+        costPerItem:
+          type: string
+        totalCost:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        amount:
+          type: number
+      required:
+        - costPerItem
+        - totalCost
+        - name
+        - title
+        - description
+        - amount
+    OrderType:
+      type: string
+      enum:
+        - ADD_PLAN
+        - RENEW_PLAN
+        - CHANGE_PLAN
+        - CHANGE_SIM
+        - CHANGE_PHONE_NUMBER
+        - DEACTIVATE_PLAN
+        - REACTIVATE_PLAN
+        - PORT_IN
+        - PORT_OUT
+    OrderStatus:
+      type: string
+      enum:
+        - DRAFT
+        - CONFIRMED
+        - PENDING
+        - PROCESSING
+        - ERROR
+        - DONE
+        - ABORTED
+    SubscriptionStatus:
+      type: string
+      enum:
+        - PENDING
+        - ACTIVE
+        - CANCELLED
+        - DEACTIVATED
+        - SUSPENDED
+    SubscriptionPeriodStatus:
+      type: string
+      enum:
+        - PENDING
+        - PROCESSING
+        - DONE
+        - CANCELLED
+        - FAILED
+    PublicSubscriptionPeriodDto:
+      type: object
+      properties:
+        status:
+          allOf:
+            - $ref: '#/components/schemas/SubscriptionPeriodStatus'
+        id:
+          type: string
+        startsAt:
+          format: date-time
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        offerId:
+          type: string
+      required:
+        - status
+        - id
+        - startsAt
+        - endsAt
+        - offerId
+    PublicContentDto:
+      type: object
+      properties:
+        summary:
+          nullable: true
+          oneOf:
+            - $ref: '#/components/schemas/ContentBlockTextDto'
+            - $ref: '#/components/schemas/ContentBlockListDto'
+            - $ref: '#/components/schemas/ContentBlockImageDto'
+            - $ref: '#/components/schemas/ContentBlockSpacerDto'
+            - $ref: '#/components/schemas/ContentBlockSeparatorDto'
+          discriminator:
+            propertyName: type
+            mapping:
+              text: '#/components/schemas/ContentBlockTextDto'
+              list: '#/components/schemas/ContentBlockListDto'
+              image: '#/components/schemas/ContentBlockImageDto'
+              spacer: '#/components/schemas/ContentBlockSpacerDto'
+              separator: '#/components/schemas/ContentBlockSeparatorDto'
+        details:
+          type: array
+          nullable: true
+          items:
+            nullable: true
+            oneOf:
+              - $ref: '#/components/schemas/ContentBlockTextDto'
+              - $ref: '#/components/schemas/ContentBlockListDto'
+              - $ref: '#/components/schemas/ContentBlockImageDto'
+              - $ref: '#/components/schemas/ContentBlockSpacerDto'
+              - $ref: '#/components/schemas/ContentBlockSeparatorDto'
+            discriminator:
+              propertyName: type
+              mapping:
+                text: '#/components/schemas/ContentBlockTextDto'
+                list: '#/components/schemas/ContentBlockListDto'
+                image: '#/components/schemas/ContentBlockImageDto'
+                spacer: '#/components/schemas/ContentBlockSpacerDto'
+                separator: '#/components/schemas/ContentBlockSeparatorDto'
+        tags:
+          nullable: true
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+          nullable: true
+        bgImage:
+          type: string
+        color:
+          type: string
+    PublicPlanDto:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/PublicContentDto'
+        id:
+          type: string
+        name:
+          type: string
+        isStandalone:
+          type: boolean
+        validForSeconds:
+          type: number
+        doesAutoRenew:
+          type: boolean
+      required:
+        - content
+        - id
+        - name
+        - isStandalone
+        - validForSeconds
+        - doesAutoRenew
+    PublicOfferWithPlanDto:
+      type: object
+      properties:
+        cost:
+          type: string
+        originalCost:
+          type: string
+          nullable: true
+        providedCredits:
+          type: string
+          nullable: true
+        content:
+          $ref: '#/components/schemas/PublicContentDto'
+        id:
+          type: string
+        legalId:
+          type: string
+        sort:
+          type: number
+        validFrom:
+          format: date-time
+          type: string
+          nullable: true
+        validUntil:
+          format: date-time
+          type: string
+          nullable: true
+        planId:
+          type: string
+        plan:
+          $ref: '#/components/schemas/PublicPlanDto'
+      required:
+        - cost
+        - originalCost
+        - providedCredits
+        - content
+        - id
+        - legalId
+        - sort
+        - validFrom
+        - validUntil
+        - planId
+        - plan
+    PublicSubscriptionWithOfferDto:
+      type: object
+      properties:
+        status:
+          allOf:
+            - $ref: '#/components/schemas/SubscriptionStatus'
+        id:
+          type: string
+        parentId:
+          type: string
+          nullable: true
+        label:
+          type: string
+          nullable: true
+        phoneNumberMsisdn:
+          type: string
+          nullable: true
+        simIccid:
+          type: string
+          nullable: true
+        userId:
+          type: string
+        currentPeriod:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicSubscriptionPeriodDto'
+        offer:
+          $ref: '#/components/schemas/PublicOfferWithPlanDto'
+      required:
+        - status
+        - id
+        - parentId
+        - label
+        - phoneNumberMsisdn
+        - simIccid
+        - userId
+        - currentPeriod
+        - offer
+    PublicOrderWithSubscriptionDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/OrderType'
+        status:
+          allOf:
+            - $ref: '#/components/schemas/OrderStatus'
+        id:
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+          nullable: true
+        completedAt:
+          format: date-time
+          type: string
+          nullable: true
+        subscriptionId:
+          type: string
+          nullable: true
+        subscription:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicSubscriptionWithOfferDto'
+      required:
+        - type
+        - status
+        - id
+        - startedAt
+        - completedAt
+        - subscriptionId
+        - subscription
+    PublicInvoiceWithOrderAndItemsDto:
+      type: object
+      properties:
+        totalCost:
+          type: string
+        id:
+          type: string
+        invoicedAt:
+          format: date-time
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicInvoiceItemDto'
+        order:
+          $ref: '#/components/schemas/PublicOrderWithSubscriptionDto'
+      required:
+        - totalCost
+        - id
+        - invoicedAt
+        - items
+        - order
+    PublicOnboardingProgressDto:
+      type: object
+      properties:
+        id:
+          type: string
+        stageName:
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+          nullable: true
+        completedAt:
+          format: date-time
+          type: string
+          nullable: true
+      required:
+        - id
+        - stageName
+        - startedAt
+        - completedAt
+    UpdateMyOnboardingProgressDto:
+      type: object
+      properties:
+        stage:
+          type: string
+        completed:
+          type: boolean
+      required:
+        - stage
+        - completed
+    OrderStepStatus:
+      type: string
+      enum:
+        - PENDING
+        - PROCESSING
+        - ERROR
+        - DONE
+        - ABORTED
+        - SKIPPED
+    PublicOrderStepDto:
+      type: object
+      properties:
+        status:
+          allOf:
+            - $ref: '#/components/schemas/OrderStepStatus'
+        error:
+          type: string
+          nullable: true
+        type:
+          type: string
+      required:
+        - status
+        - error
+        - type
+    SimType:
+      type: string
+      enum:
+        - P_SIM
+        - E_SIM
+    PublicSimSelectionDataDto:
+      type: object
+      properties:
+        simType:
+          allOf:
+            - $ref: '#/components/schemas/SimType'
+        iccid:
+          type: string
+          nullable: true
+      required:
+        - simType
+    PublicPortInDataDto:
+      type: object
+      properties:
+        isPortingIn:
+          type: boolean
+        msisdn:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        accountNumber:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+      required:
+        - isPortingIn
+    PublicOrderWithOfferDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/OrderType'
+        status:
+          allOf:
+            - $ref: '#/components/schemas/OrderStatus'
+        id:
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+          nullable: true
+        completedAt:
+          format: date-time
+          type: string
+          nullable: true
+        currentStep:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicOrderStepDto'
+        simSelection:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicSimSelectionDataDto'
+        portIn:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicPortInDataDto'
+        offer:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicOfferWithPlanDto'
+        subscriptionId:
+          type: string
+          nullable: true
+      required:
+        - type
+        - status
+        - id
+        - startedAt
+        - completedAt
+        - currentStep
+        - simSelection
+        - portIn
+        - offer
+        - subscriptionId
+    PublicOrderDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/OrderType'
+        status:
+          allOf:
+            - $ref: '#/components/schemas/OrderStatus'
+        id:
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+          nullable: true
+        completedAt:
+          format: date-time
+          type: string
+          nullable: true
+        subscriptionId:
+          type: string
+          nullable: true
+      required:
+        - type
+        - status
+        - id
+        - startedAt
+        - completedAt
+        - subscriptionId
+    CreateMyOrderDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/OrderType'
+        offerId:
+          type: string
+          format: uuid
+        promoCodeId:
+          type: string
+          format: uuid
+        subscriptionId:
+          type: string
+          format: uuid
+      required:
+        - type
+    PublicSubscriptionDto:
+      type: object
+      properties:
+        status:
+          allOf:
+            - $ref: '#/components/schemas/SubscriptionStatus'
+        id:
+          type: string
+        parentId:
+          type: string
+          nullable: true
+        label:
+          type: string
+          nullable: true
+        phoneNumberMsisdn:
+          type: string
+          nullable: true
+        simIccid:
+          type: string
+          nullable: true
+        userId:
+          type: string
+      required:
+        - status
+        - id
+        - parentId
+        - label
+        - phoneNumberMsisdn
+        - simIccid
+        - userId
+    PublicOrderSigningDto:
+      type: object
+      properties:
+        message:
+          type: string
+          nullable: true
+      required:
+        - message
+    PublicOrderWithDetailsDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/OrderType'
+        status:
+          allOf:
+            - $ref: '#/components/schemas/OrderStatus'
+        id:
+          type: string
+        stepNo:
+          type: number
+          nullable: true
+        startedAt:
+          format: date-time
+          type: string
+          nullable: true
+        completedAt:
+          format: date-time
+          type: string
+          nullable: true
+        currentStep:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicOrderStepDto'
+        offer:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicOfferWithPlanDto'
+        subscription:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicSubscriptionDto'
+        signing:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PublicOrderSigningDto'
+        subscriptionId:
+          type: string
+          nullable: true
+      required:
+        - type
+        - status
+        - id
+        - stepNo
+        - startedAt
+        - completedAt
+        - currentStep
+        - offer
+        - subscription
+        - signing
+        - subscriptionId
+    UpdateMyOrderDto:
+      type: object
+      properties:
+        simType:
+          allOf:
+            - $ref: '#/components/schemas/SimType'
+        offerId:
+          type: string
+        isPortingIn:
+          type: boolean
+        postalCode:
+          type: string
+        msisdn:
+          type: string
+        ospAccountNumber:
+          type: string
+        ospPassword:
+          type: string
+        simIccid:
+          type: string
+        confirm:
+          type: boolean
+    PortInDto:
+      type: object
+      properties:
+        isPortingIn:
+          type: boolean
+        msisdn:
+          type: string
+        postalCode:
+          type: string
+        accountNumber:
+          type: string
+        password:
+          type: string
+      required:
+        - isPortingIn
+    SimSelectionDto:
+      type: object
+      properties:
+        simType:
+          allOf:
+            - $ref: '#/components/schemas/SimType'
+        iccid:
+          type: string
+      required:
+        - simType
+    UpdateMyOrderV2Dto:
+      type: object
+      properties:
+        offerId:
+          type: string
+        promoCodeId:
+          type: string
+        portIn:
+          $ref: '#/components/schemas/PortInDto'
+        simSelection:
+          $ref: '#/components/schemas/SimSelectionDto'
+        confirm:
+          type: boolean
+    UpdateMyOrderStepAttachSimDto:
+      type: object
+      properties:
+        iccid:
+          type: string
+          minLength: 19
+          maxLength: 20
+      required:
+        - iccid
+    UpdateMyOrderStepSignDto:
+      type: object
+      properties:
+        signature:
+          type: string
+      required:
+        - signature
+    PublicTaxItemDto:
+      type: object
+      properties:
+        cost:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - cost
+        - id
+        - name
+        - title
+        - description
+        - tags
+    UpdateMySubscriptionDto:
+      type: object
+      properties:
+        label:
+          type: string
+    PublicSubscriptionPeriodWithOfferDto:
+      type: object
+      properties:
+        status:
+          allOf:
+            - $ref: '#/components/schemas/SubscriptionPeriodStatus'
+        id:
+          type: string
+        startsAt:
+          format: date-time
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        offerId:
+          type: string
+        offer:
+          $ref: '#/components/schemas/PublicOfferWithPlanDto'
+      required:
+        - status
+        - id
+        - startsAt
+        - endsAt
+        - offerId
+        - offer
+    VolumeType:
+      type: string
+      enum:
+        - DATA
+        - TEXT
+        - CALL
+        - CREDIT
+    PublicVolumeDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/VolumeType'
+        amount:
+          type: string
+        id:
+          type: string
+        isUnlimited:
+          type: boolean
+        isRoaming:
+          type: boolean
+      required:
+        - type
+        - amount
+        - id
+        - isUnlimited
+        - isRoaming
+    PublicPlanWithVolumesDto:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/PublicContentDto'
+        id:
+          type: string
+        name:
+          type: string
+        isStandalone:
+          type: boolean
+        validForSeconds:
+          type: number
+        doesAutoRenew:
+          type: boolean
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicVolumeDto'
+      required:
+        - content
+        - id
+        - name
+        - isStandalone
+        - validForSeconds
+        - doesAutoRenew
+        - volumes
+    PublicOfferWithPlanWithVolumesDto:
+      type: object
+      properties:
+        cost:
+          type: string
+        originalCost:
+          type: string
+          nullable: true
+        providedCredits:
+          type: string
+          nullable: true
+        content:
+          $ref: '#/components/schemas/PublicContentDto'
+        id:
+          type: string
+        legalId:
+          type: string
+        sort:
+          type: number
+        validFrom:
+          format: date-time
+          type: string
+          nullable: true
+        validUntil:
+          format: date-time
+          type: string
+          nullable: true
+        planId:
+          type: string
+        plan:
+          $ref: '#/components/schemas/PublicPlanWithVolumesDto'
+      required:
+        - cost
+        - originalCost
+        - providedCredits
+        - content
+        - id
+        - legalId
+        - sort
+        - validFrom
+        - validUntil
+        - planId
+        - plan
+    PublicSimDetailsDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/SimType'
+        isActivated:
+          type: boolean
+        eSimStatus:
+          type: string
+          nullable: true
+        eSimActivationCode:
+          type: string
+          nullable: true
+        pin:
+          type: string
+          nullable: true
+        puk:
+          type: string
+          nullable: true
+        iccid:
+          type: string
+      required:
+        - type
+        - isActivated
+        - eSimStatus
+        - eSimActivationCode
+        - pin
+        - puk
+        - iccid
+    PublicVolumeUsageDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/VolumeType'
+        amountTotal:
+          type: string
+        amountUsed:
+          type: string
+        isUnlimited:
+          type: boolean
+        isRoaming:
+          type: boolean
+        subscriptionId:
+          type: string
+      required:
+        - type
+        - amountTotal
+        - amountUsed
+        - isUnlimited
+        - isRoaming
+    AddressType:
+      type: string
+      enum:
+        - E911
+        - Billing
+        - Shipping
+    PublicAddressDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/AddressType'
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        line1:
+          type: string
+        line2:
+          type: string
+        line3:
+          type: string
+        line4:
+          type: string
+        city:
+          type: string
+        postalCode:
+          type: string
+        province:
+          type: string
+        country:
+          type: string
+      required:
+        - type
+        - id
+        - name
+        - line1
+        - line2
+        - line3
+        - line4
+        - city
+        - postalCode
+        - province
+        - country
+    ChangeMyAddressDto:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        line1:
+          type: string
+        line2:
+          type: string
+        line3:
+          type: string
+        line4:
+          type: string
+        city:
+          type: string
+        postalCode:
+          type: string
+        province:
+          type: string
+        country:
+          type: string
+      required:
+        - line1
+        - line2
+        - line3
+        - line4
+        - city
+        - postalCode
+        - province
+        - country
+    WalletProvider:
+      type: string
+      enum:
+        - SOLANA
+    PublicWalletDto:
+      type: object
+      properties:
+        provider:
+          allOf:
+            - $ref: '#/components/schemas/WalletProvider'
+        id:
+          type: string
+        address:
+          type: string
+        cloudBackupAt:
+          format: date-time
+          type: string
+          nullable: true
+        localBackupAt:
+          format: date-time
+          type: string
+          nullable: true
+      required:
+        - provider
+        - id
+        - address
+        - cloudBackupAt
+        - localBackupAt
+    CreateMyWalletDto:
+      type: object
+      properties:
+        provider:
+          allOf:
+            - $ref: '#/components/schemas/WalletProvider'
+        address:
+          type: string
+        imported:
+          type: boolean
+        readOnly:
+          type: boolean
+      required:
+        - provider
+        - address
+        - imported
+        - readOnly
+    UpdateMyWalletDto:
+      type: object
+      properties:
+        cloudBackup:
+          type: boolean
+        localBackup:
+          type: boolean
+        readOnly:
+          type: boolean
+    PublicSigningRequestDto:
+      type: object
+      properties:
+        address:
+          type: string
+        message:
+          type: string
+      required:
+        - address
+        - message
+    ValidateMyWalletDto:
+      type: object
+      properties:
+        message:
+          type: string
+        signature:
+          type: string
+      required:
+        - message
+        - signature
+    PublicTokenBalanceDto:
+      type: object
+      properties:
+        exchangeRateUsd:
+          type: string
+          nullable: true
+        balance:
+          type: string
+        balanceInUsd:
+          type: string
+          nullable: true
+        name:
+          type: string
+        symbol:
+          type: string
+        decimals:
+          type: number
+        image:
+          type: string
+      required:
+        - exchangeRateUsd
+        - balance
+        - balanceInUsd
+        - name
+        - symbol
+        - decimals
+        - image
+    PublicTokenHistoryEntryDto:
+      type: object
+      properties:
+        ts:
+          format: date-time
+          type: string
+        price:
+          type: number
+      required:
+        - ts
+        - price
+    PublicTokenHistoryDto:
+      type: object
+      properties:
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicTokenHistoryEntryDto'
+      required:
+        - prices
+    PublicCertificateDto:
+      type: object
+      properties:
+        id:
+          type: string
+        phoneNumberMsisdn:
+          type: string
+        issuedAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+      required:
+        - id
+        - phoneNumberMsisdn
+        - issuedAt
+        - expiresAt
+    CheckCoverageDto:
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        line3:
+          type: string
+        line4:
+          type: string
+        city:
+          type: string
+        postalCode:
+          type: string
+        province:
+          type: string
+        country:
+          type: string
+      required:
+        - line1
+        - line2
+        - line3
+        - line4
+        - city
+        - postalCode
+        - province
+        - country
+    PublicCoverageDto:
+      type: object
+      properties:
+        coverage:
+          type: number
+          nullable: true
+      required:
+        - coverage
+    CheckPortInDto:
+      type: object
+      properties:
+        msisdn:
+          type: string
+      required:
+        - msisdn
+    PublicPortInDto:
+      type: object
+      properties:
+        isEligible:
+          type: boolean
+      required:
+        - isEligible
+    OnboardingStageType:
+      type: string
+      enum:
+        - CONTENT
+        - ADDRESS
+        - PAYMENT
+        - ORDER_PLAN
+        - ORDER_MSISDN
+        - ORDER_SIM_TYPE
+        - ORDER_CONFIRM
+        - ORDER_PROCESS
+        - KYC
+    PublicOnboardingStageDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/OnboardingStageType'
+        content:
+          $ref: '#/components/schemas/PublicContentDto'
+        data:
+          nullable: true
+          oneOf:
+            - $ref: '#/components/schemas/OnboardingDataAddressDto'
+            - $ref: '#/components/schemas/OnboardingDataDto'
+            - $ref: '#/components/schemas/OnboardingDataDto'
+            - $ref: '#/components/schemas/OnboardingDataOrderConfirmDto'
+            - $ref: '#/components/schemas/OnboardingDataDto'
+            - $ref: '#/components/schemas/OnboardingDataDto'
+            - $ref: '#/components/schemas/OnboardingDataDto'
+            - $ref: '#/components/schemas/OnboardingDataDto'
+            - $ref: '#/components/schemas/OnboardingDataDto'
+          discriminator:
+            propertyName: type
+            mapping:
+              ADDRESS: '#/components/schemas/OnboardingDataAddressDto'
+              CONTENT: '#/components/schemas/OnboardingDataDto'
+              KYC: '#/components/schemas/OnboardingDataDto'
+              ORDER_CONFIRM: '#/components/schemas/OnboardingDataOrderConfirmDto'
+              ORDER_MSISDN: '#/components/schemas/OnboardingDataDto'
+              ORDER_PLAN: '#/components/schemas/OnboardingDataDto'
+              ORDER_PROCESS: '#/components/schemas/OnboardingDataDto'
+              ORDER_SIM_TYPE: '#/components/schemas/OnboardingDataDto'
+              PAYMENT: '#/components/schemas/OnboardingDataDto'
+        name:
+          type: string
+        sort:
+          type: number
+        required:
+          type: boolean
+      required:
+        - type
+        - content
+        - data
+        - name
+        - sort
+        - required
+    AuthProvider:
+      type: string
+      enum:
+        - local
+        - google
+        - apple
+        - open-id
+    PublicAuthStrategyDto:
+      type: object
+      properties:
+        provider:
+          allOf:
+            - $ref: '#/components/schemas/AuthProvider'
+        name:
+          type: string
+        title:
+          type: string
+        tags:
+          nullable: true
+          type: array
+          items:
+            type: string
+      required:
+        - provider
+        - name
+        - title
+    RefreshDto:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+    AuthOpenIdLoginRedeemDto:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+        - code
+    PublicExchangeDto:
+      type: object
+      properties:
+        issuerUrl:
+          type: string
+        clientId:
+          type: string
+        redirectUrl:
+          type: string
+        scope:
+          type: string
+      required:
+        - issuerUrl
+        - clientId
+        - redirectUrl
+        - scope
+    AuthOpenIdExchangeCallbackDto:
+      type: object
+      properties:
+        idToken:
+          type: string
+      required:
+        - idToken
+    LoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+    SignupDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+    ChangeUnverifiedEmailDto:
+      type: object
+      properties:
+        oldEmail:
+          type: string
+          format: email
+        newEmail:
+          type: string
+          format: email
+      required:
+        - oldEmail
+        - newEmail
+    ResetPasswordDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+    SetPasswordDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        code:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - code
+        - password
+    ResetVerifyDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+    VerifyDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        code:
+          type: string
+      required:
+        - email
+        - code
+    AuthAppleLoginRedeemDto:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+        - code
+    PublicAuthAppleExchangeDto:
+      type: object
+      properties:
+        issuerUrl:
+          type: string
+        clientId:
+          type: string
+        redirectUrl:
+          type: string
+        scope:
+          type: string
+      required:
+        - issuerUrl
+        - clientId
+        - redirectUrl
+        - scope
+    AuthAppleExchangeCallbackDto:
+      type: object
+      properties:
+        idToken:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - idToken
+    AuthGoogleLoginRedeemDto:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+        - code
+    PublicAuthGoogleExchangeDto:
+      type: object
+      properties:
+        issuerUrl:
+          type: string
+        clientId:
+          type: string
+        redirectUrl:
+          type: string
+        scope:
+          type: string
+        webClientId:
+          type: string
+        iOSClientId:
+          type: string
+      required:
+        - issuerUrl
+        - clientId
+        - redirectUrl
+        - scope
+        - webClientId
+        - iOSClientId
+    AuthGoogleExchangeCallbackDto:
+      type: object
+      properties:
+        idToken:
+          type: string
+      required:
+        - idToken
+    PublicPromoCodeWithOffersDto:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/PublicContentDto'
+        id:
+          type: string
+        code:
+          type: string
+        offers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicOfferWithPlanWithVolumesDto'
+      required:
+        - content
+        - id
+        - code
+        - offers
+    DeviceType:
+      type: string
+      enum:
+        - IOS
+        - ANDROID
+    PublicDeviceDto:
+      type: object
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/DeviceType'
+        name:
+          type: string
+        eSimSupport:
+          type: boolean
+      required:
+        - type
+        - name
+        - eSimSupport
+    PublicCountryDto:
+      type: object
+      properties:
+        rate:
+          type: string
+          nullable: true
+        name:
+          type: string
+        favourite:
+          type: boolean
+        roaming:
+          type: boolean
+      required:
+        - rate
+        - name
+        - favourite
+        - roaming
+    ContentBlockDto:
+      type: object
+      properties:
+        type:
+          type: string
+      required:
+        - type
+    ContentBlockTextDto:
+      type: object
+      properties:
+        content:
+          type: string
+        text:
+          type: string
+        title:
+          type: string
+        variant:
+          type: string
+        color:
+          type: string
+        type:
+          type: string
+      required:
+        - content
+        - text
+        - type
+    ContentBlockListDto:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: string
+        items:
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+        variant:
+          type: string
+        color:
+          type: string
+        type:
+          type: string
+      required:
+        - content
+        - items
+        - type
+    ContentBlockImageDto:
+      type: object
+      properties:
+        content:
+          type: string
+        image:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+      required:
+        - content
+        - image
+        - type
+    ContentBlockSpacerDto:
+      type: object
+      properties:
+        content:
+          type: string
+        spacing:
+          type: string
+        type:
+          type: string
+      required:
+        - content
+        - spacing
+        - type
+    ContentBlockSeparatorDto:
+      type: object
+      properties:
+        content:
+          type: string
+        color:
+          type: string
+        type:
+          type: string
+      required:
+        - content
+        - type
+    OnboardingDataDto:
+      type: object
+      properties:
+        type:
+          type: string
+        showInProgress:
+          type: boolean
+      required:
+        - type
+    OnboardingDataAddressDto:
+      type: object
+      properties:
+        addressType:
+          allOf:
+            - $ref: '#/components/schemas/AddressType'
+        type:
+          type: string
+        showInProgress:
+          type: boolean
+      required:
+        - addressType
+        - type
+    OnboardingDataOrderConfirmDto:
+      type: object
+      properties:
+        type:
+          type: string
+        showInProgress:
+          type: boolean
+        payment:
+          type: boolean
+        stages:
+          type: array
+          items:
+            type: string
+      required:
+        - type
+        - stages

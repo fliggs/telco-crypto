@@ -1,0 +1,44 @@
+enum LogEventType {
+  USER_CREATED
+  USER_VERIFIED
+  USER_DELETED
+  ONBOARDING_STAGE_STARTED
+  ONBOARDING_STAGE_COMPLETED
+  ORDER_CREATED
+  ORDER_CONFIRMED
+  ORDER_COMPLETED
+  ORDER_ERRORED
+  ORDER_ABORTED
+  ORDER_CANCELLED
+  SUBSCRIPTION_CREATED
+  SUBSCRIPTION_ACTIVATED
+  SUBSCRIPTION_CANCELLED
+  SUBSCRIPTION_UNCANCELLED
+  SUBSCRIPTION_REACTIVATED
+  SUBSCRIPTION_DEACTIVATED
+  SUBSCRIPTION_SUSPENDED
+  LEGACY_REQUEST
+}
+
+model LogEvent {
+  id        String       @id @default(uuid()) @db.Uuid
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+  type      LogEventType
+  data      Json
+
+  userId String? @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id])
+
+  subscriptionId String?       @db.Uuid
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  orderId String? @db.Uuid
+  order   Order?  @relation(fields: [orderId], references: [id])
+
+  @@index([createdAt(sort: Desc), type])
+  @@index([type])
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([orderId])
+}
